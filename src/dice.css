@@ -1,8 +1,12 @@
 .dice-container {
-    display: flex;
-    margin: 10px;
+  display: flex;
+  margin: 10px;
 }
 
 .die-face {
-    margin: 10px;
+  margin: 10px;
+}
+
+.dice-img {
+  display: block;
 }
