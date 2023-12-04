@@ -8,7 +8,7 @@ export default function Die(props) {
   };
   return (
     <div className="die-face" onClick={props.holdDice} style={styles}>
-      <img src={`img/${props.src}`} alt="dice" />
+      <img src={`img/${props.src}`} alt="dice" className="dice-img" />
     </div>
   );
 }
