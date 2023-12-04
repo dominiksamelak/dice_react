@@ -12,20 +12,20 @@ import "./dice.css";
 const DICE_COUNT = 5;
 
 function App() {
-  const [dice, setDice] = React.useState(generateNewDie());
+  const [dice, setDice] = React.useState(newRoll());
 
   function generateNewDie() {
-    return Array(DICE_COUNT)
-      .fill()
-      .map(() => {
-        const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
-        return {
-          value: diceValue,
-          isHeld: false,
-          id: nanoid(),
-          src: `${diceValue}.png`,
-        };
-      });
+    const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
+    return {
+      value: diceValue,
+      isHeld: false,
+      id: nanoid(),
+      src: `${diceValue}.png`,
+    };
+  }
+
+  function newRoll() {
+    return Array(DICE_COUNT).fill().map(generateNewDie);
   }
 
   function rollUnSelected() {
@@ -35,7 +35,7 @@ function App() {
   }
 
   function rollAll() {
-    setDice(generateNewDie());
+    setDice(newRoll());
   }
 
   function holdDice(id) {
