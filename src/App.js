@@ -9,14 +9,16 @@ import "./dice.css";
 // import fiveDice from './img/5.png'
 // import sixDice from './img/6.png'
 
+const DICE_COUNT = 5;
+
 function App() {
   const [dice, setDice] = React.useState(generateNewDie());
 
   function generateNewDie() {
-    return Array(5)
+    return Array(DICE_COUNT)
       .fill()
       .map(() => {
-        const diceValue = Math.ceil(Math.random() * 6);
+        const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
         return {
           value: diceValue,
           isHeld: false,
