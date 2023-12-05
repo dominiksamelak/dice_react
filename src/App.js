@@ -4,12 +4,6 @@ import Die from "./Die";
 import { nanoid } from "nanoid";
 import "./dice.css";
 import Score from "./Score";
-// import oneDie from './img/1.png'
-// import twoDice from './img/2.png'
-// import threeDice from './img/3.png'
-// import fourDice from './img/4.png'
-// import fiveDice from './img/5.png'
-// import sixDice from './img/6.png'
 
 const DICE_COUNT = 5;
 
