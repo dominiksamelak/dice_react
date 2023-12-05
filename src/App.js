@@ -2,6 +2,7 @@ import React from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import "./dice.css";
+import Score from "./Score";
 // import oneDie from './img/1.png'
 // import twoDice from './img/2.png'
 // import threeDice from './img/3.png'
@@ -28,7 +29,7 @@ function App() {
     return Array(DICE_COUNT).fill().map(generateNewDie);
   }
 
-  function rollUnSelected() {
+  function rollUnselected() {
     setDice((oldDice) =>
       oldDice.map((die) => (die.isHeld ? die : generateNewDie()))
     );
@@ -60,7 +61,11 @@ function App() {
     <main>
       <div className="dice-container">{diceElements}</div>
       <button onClick={rollAll}>Roll all</button>
-      <button onClick={rollUnSelected}>Roll unselected</button>
+      <button onClick={rollUnselected}>Roll unselected</button>
+      <div>
+        <Score />
+      </div>
+      
     </main>
   );
 }

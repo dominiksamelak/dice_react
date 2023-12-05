@@ -9,4 +9,6 @@
 
 .dice-img {
   display: block;
+  width: 55px;
+  border-radius: 10px;
 }
