@@ -15,6 +15,7 @@ const DICE_COUNT = 5;
 
 function App() {
   const [dice, setDice] = React.useState(newRoll());
+  const [countOne, setCountOne] = React.useState();
 
   function generateNewDie() {
     const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
@@ -49,11 +50,9 @@ function App() {
   }
 
   useEffect(() => {
-    const countOne = dice.filter((die) => die.value === 1).length
+    setCountOne(dice.filter((die) => die.value === 1).length);
     // console.log(countOne)
-  })
-
-  
+  }, [dice, setCountOne]);
 
   const diceElements = dice.map((die) => (
     <Die
@@ -72,7 +71,7 @@ function App() {
       <button onClick={rollUnselected}>Roll unselected</button>
       {/* <button onClick={}>s</button> */}
       <div>
-        <Score />
+        <Score countOne={countOne} />
       </div>
     </main>
   );
