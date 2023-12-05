@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import "./dice.css";
@@ -47,6 +48,13 @@ function App() {
     );
   }
 
+  useEffect(() => {
+    const countOne = dice.filter((die) => die.value === 1).length
+    // console.log(countOne)
+  })
+
+  
+
   const diceElements = dice.map((die) => (
     <Die
       key={die.id}
@@ -62,6 +70,7 @@ function App() {
       <div className="dice-container">{diceElements}</div>
       <button onClick={rollAll}>Roll all</button>
       <button onClick={rollUnselected}>Roll unselected</button>
+      {/* <button onClick={}>s</button> */}
       <div>
         <Score />
       </div>
