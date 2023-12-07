@@ -12,3 +12,8 @@
   width: 55px;
   border-radius: 10px;
 }
+
+.die-school-container,
+.school-score-container {
+  margin: 20px 0 0 0
+}

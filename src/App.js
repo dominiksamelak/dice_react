@@ -15,6 +15,7 @@ function App() {
   const [scoreFour, setScoreFour] = React.useState("---");
   const [scoreFive, setScoreFive] = React.useState("---");
   const [scoreSix, setScoreSix] = React.useState("---");
+  const [schoolScoreCount, setSchoolScoreCount] = React.useState(0);
   
   function generateNewDie() {
     const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
@@ -145,6 +146,9 @@ function App() {
     } else {
       setScoreSix("---");
     }
+
+    const schoolScoreCount = countOneValue + countTwoValue + countThreeValue + countFourValue + countFiveValue + countSixValue;
+    setSchoolScoreCount(schoolScoreCount)
   }, [dice]);
 
 
@@ -172,6 +176,7 @@ function App() {
         scoreFour={scoreFour}
         scoreFive={scoreFive}
         scoreSix={scoreSix}
+        schoolScoreCount={schoolScoreCount}
          />
       </div>
     </main>
