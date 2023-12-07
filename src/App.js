@@ -6,7 +6,6 @@ import "./dice.css";
 import Score from "./Score";
 
 const DICE_COUNT = 5;
-let oneValue = 0
 
 function App() {
   const [dice, setDice] = React.useState(newRoll());
@@ -132,7 +131,7 @@ function App() {
       setScoreFive("---");
     }
 
-    // Define scoring logic for value 5
+    // Define scoring logic for value 6
     if (countSixValue === 1) {
       setScoreSix(-12);
     } else if (countSixValue === 2) {
