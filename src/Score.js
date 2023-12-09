@@ -39,7 +39,7 @@ export default function Score(props) {
                 onClick={() => handleLock(index)}
                 disabled={lockedScores[index]} // Disable button if score is locked
               >
-                {lockedScores[index] ? "Locked" : "Pick"}
+                {lockedScores[index] ? <>&#x2714;</> : "Pick"}
               </button>
             </div>
           </div>
