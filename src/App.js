@@ -1,17 +1,16 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useState } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import "./dice.css";
 import Score from "./Score";
-import { countingLogic } from "./Logic"
-
+import { CountingLogic } from "./Logic";
 
 const DICE_COUNT = 5;
 
 function App() {
-  const [dice, setDice] = React.useState(newRoll());
-  
+  const [dice, setDice] = useState(newRoll());
+  const { scores, schoolScoreCount } = CountingLogic({ dice }); // Use CountingLogic and get returned values
+
   function generateNewDie() {
     const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
     return {
@@ -23,7 +22,9 @@ function App() {
   }
 
   function newRoll() {
-    return Array(DICE_COUNT).fill().map(generateNewDie);
+    return Array(DICE_COUNT)
+      .fill()
+      .map(generateNewDie);
   }
 
   function rollUnselected() {
@@ -44,8 +45,6 @@ function App() {
     );
   }
 
-  countingLogic()
-
   const diceElements = dice.map((die) => (
     <Die
       key={die.id}
@@ -61,17 +60,12 @@ function App() {
       <div className="dice-container">{diceElements}</div>
       <button onClick={rollAll}>Roll all</button>
       <button onClick={rollUnselected}>Roll unselected</button>
-      {/* <button onClick={}>s</button> */}
+      {/* Pass scores and schoolScoreCount as props to Score component */}
       <div>
-        <Score 
-        // scoreOne={scoreOne}
-        // scoreTwo={scoreTwo}
-        // scoreThree={scoreThree}
-        // scoreFour={scoreFour}
-        // scoreFive={scoreFive}
-        // scoreSix={scoreSix}
-        // schoolScoreCount={schoolScoreCount}
-         />
+        <Score
+          scores={scores}
+          schoolScoreCount={schoolScoreCount}
+        />
       </div>
     </main>
   );

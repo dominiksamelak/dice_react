@@ -1,38 +1,26 @@
 import React from "react";
 
 export default function Score(props) {
-  
+  const { scores } = props; // Destructure scores from props
+
+  // Calculate schoolScoreCount based on the values in scores object
+  const schoolScoreCount = Object.values(scores)
+    .filter(score => typeof score === 'number') // Filter out non-numeric scores
+    .reduce((total, score) => total + score, 0); // Sum up the numeric scores
+
   return (
     <section className="player-one-score">
       <div className="school">
-        <div className="die-school-container">
-          <div className="school-one">{props.scoreOne}</div>
-          <button className="confirm-one" id="button-school">
-            Pick
-          </button>
-        </div>
-        <div className="die-school-container">
-          <div className="school-two">{props.scoreTwo}</div>
-          <button className="confirm-two" id="button-school">Pick</button>
-        </div>
-        <div className="die-school-container">
-          <div className="school-three">{props.scoreThree}</div>
-          <button className="confirm-three" id="button-school">Pick</button>
-        </div>
-        <div className="die-school-container">
-          <div className="school-four">{props.scoreFour}</div>
-          <button className="confirm-four" id="button-school">Pick</button>
-        </div>
-        <div className="die-school-container">
-          <div className="school-five">{props.scoreFive}</div>
-          <button className="confirm-five" id="button-school">Pick</button>
-        </div>
-        <div className="die-school-container">
-          <div className="school-six">{props.scoreSix}</div>
-          <button className="confirm-six" id="button-school">Pick</button>
-        </div>
+        {Object.keys(scores).map((key) => (
+          <div className="die-school-container" key={key}>
+            <div className={`school-${key.toLowerCase()}`}>{scores[key]}</div>
+            <button className={`confirm-${key.toLowerCase()}`} id="button-school">
+              Pick
+            </button>
+          </div>
+        ))}
         <div className="school-score-container">
-          <div className="school-score">{props.schoolScoreCount}</div>
+          <div className="school-score">{schoolScoreCount}</div>
         </div>
       </div>
     </section>
