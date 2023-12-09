@@ -32,6 +32,8 @@ export function CountingLogic({ dice }) {
         updatedScores[`score${i}`] = i;
       } else if (countValue === 5) {
         updatedScores[`score${i}`] = 2 * i;
+      } else if (countValue === 6) {
+        updatedScores[`score${i}`] = 2 * i;
       } else {
         updatedScores[`score${i}`] = '---';
       }

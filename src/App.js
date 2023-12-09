@@ -11,20 +11,20 @@ function App() {
   const [dice, setDice] = useState(newRoll());
   const { scores, schoolScoreCount } = CountingLogic({ dice }); // Use CountingLogic and get returned values
 
+  function newRoll() {
+    return Array(DICE_COUNT)
+      .fill()
+      .map(generateNewDie);
+  }
+  
   function generateNewDie() {
-    const diceValue = Math.floor(Math.random() * DICE_COUNT) + 1;
+    const diceValue = Math.floor(Math.random() * 6) + 1; // Adjust to generate values between 1 and 6
     return {
       value: diceValue,
       isHeld: false,
       id: nanoid(),
       src: `${diceValue}.png`,
     };
-  }
-
-  function newRoll() {
-    return Array(DICE_COUNT)
-      .fill()
-      .map(generateNewDie);
   }
 
   function rollUnselected() {
