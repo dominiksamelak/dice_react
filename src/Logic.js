@@ -64,20 +64,23 @@ export function CountingLogic({ dice }) {
           break;
         }
       }
-      
+
       if (countValues[i] === 4) {
         twoPairsScore += i * 2;
         pairsFound++;
       }
-    }
-    // If two pairs are not found, reset twoPairsScore to 0
-    if (pairsFound !== 2) {
-      twoPairsScore = 0;
+
+      // Special case: Five of a kind counts as two pairs
+      if (countValues[i] === 5) {
+        twoPairsScore += i * 2;
+        pairsFound = 2; // Set pairsFound to 2 to exit the loop
+        break;
+      }
     }
 
-    // Add the one-pair score if only one pair is found
-    if (pairsFound === 1 && onePairScore !== '---') {
-      twoPairsScore += onePairScore;
+    // If two pairs are not found, reset twoPairsScore to 0
+    if (pairsFound < 2) {
+      twoPairsScore = 0;
     }
 
     updatedScores.twoPairs = pairsFound === 2 ? twoPairsScore : '---';
