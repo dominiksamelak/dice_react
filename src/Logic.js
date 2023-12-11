@@ -8,10 +8,6 @@ export function CountingLogic({ dice }) {
     scoreFour: '---',
     scoreFive: '---',
     scoreSix: '---',
-    onePair: '---',
-    twoPairs: '---',
-    triple: '---',
-    straightFlush: '---'
   };
 
   const [scores, setScores] = useState(initialScores);
