@@ -2,43 +2,69 @@ import React, { useState } from "react";
 
 export default function Score(props) {
   const { scores } = props;
-  const [lockedScores, setLockedScores] = useState(Array(6).fill(false));
-  const [lockedValues, setLockedValues] = useState(Array(6).fill(null));
+  const [lockedStates, setLockedStates] = useState({
+    onePair: { locked: false, value: null },
+    twoPairs: { locked: false, value: null },
+    triple: { locked: false, value: null },
+    straightFlush: { locked: false, value: null },
+    royalFlush: { locked: false, value: null },
+    fullHouse: { locked: false, value: null },
+    quads: { locked: false, value: null },
+    poker: { locked: false, value: null },
+  });
 
-  const handleLock = (index) => {
-    const updatedLocks = [...lockedScores];
-    updatedLocks[index] = true;
-    setLockedScores(updatedLocks);
-
-    const updatedValues = [...lockedValues];
-    updatedValues[index] = scores[`score${index + 1}`];
-    setLockedValues(updatedValues);
+  const handleLock = (key) => {
+    setLockedStates((prevLockedStates) => ({
+      ...prevLockedStates,
+      [key]: { ...prevLockedStates[key], locked: true, value: scores[key] },
+    }));
+    console.log(lockedStates)
   };
 
   const sumLockedValues = () => {
-    return lockedValues.reduce((acc, value) => (value !== null ? acc + value : acc), 0);
+    return Object.values(lockedStates).reduce(
+      (acc, { value }) => (value !== null ? acc + value : acc),
+      0
+    );
+  };
+
+  const handleConfirmButtonClick = (key) => {
+    // Lock the score
+    handleLock(key);
   };
 
   return (
     <section className="player-one-score">
       <div className="school">
         {Object.keys(scores)
-          .filter((key) => key !== "onePair"  && key !== "twoPairs" && key !== "triple" && key !== "straightFlush" && key !== "royalFlush" && key !== "quads" && key !== "poker" && key !== "fullHouse") 
+          .filter(
+            (key) =>
+              ![
+                "onePair",
+                "twoPairs",
+                "triple",
+                "straightFlush",
+                "royalFlush",
+                "quads",
+                "poker",
+                "fullHouse",
+              ].includes(key)
+          )
           .map((key, index) => (
             <div className="die-school-container" key={key}>
               <div className={`school-${key.toLowerCase()}`}>
-                {lockedScores[index] ? (
-                  `${index + 1}: ${lockedValues[index]}`
+                {lockedStates[key]?.locked ? (
+                  `${index + 1}: ${lockedStates[key].value}`
                 ) : (
                   `${index + 1}: ${scores[key]}`
                 )}
                 <button
                   className={`confirm-${key.toLowerCase()}`}
                   id={`button-${key.toLowerCase()}`}
-                  onClick={() => handleLock(index)}
-                  disabled={lockedScores[index]}
+                  onClick={() => handleConfirmButtonClick(key)}
+                  disabled={lockedStates[key]?.locked || scores[key] === '---'}
                 >
-                  {lockedScores[index] ? <>&#x2714;</> : "Pick"}
+                  {lockedStates[key]?.locked ? <>&#x2714;</> : "Pick"}
                 </button>
               </div>
             </div>
@@ -49,27 +75,27 @@ export default function Score(props) {
       </div>
 
       <div className="world">
-        {/* Render one-pair-container only inside the world div */}
         <div className="one-pair-container">
           <p className="onep">1P</p>
           <div className="one-pair">{scores.onePair}</div>
           <button
             className="confirm-one-pair"
             id="button-one-pair"
-            onClick={() => handleLock(6)}
+            onClick={() => handleConfirmButtonClick('onePair')}
+            disabled={lockedStates['onePair']?.locked || scores.onePair === '---'}
           >
-            {lockedScores[6] ? <>&#x2714;</> : "Pick"}
+            {lockedStates['onePair']?.locked ? <>&#x2714;</> : "Pick"}
           </button>
-          <button
+          {/* <button
             className="confirm-one-pair-x"
             id="button-one-pairx"
-            onClick={() => handleLock(6)}
+            onClick={() => handleLock('onePair')}
           >
             X
-          </button>
+          </button> */}
         </div>
-        <div className="two-pairs-container">
-        <p className="twop">2P</p>
+        {/* <div className="two-pairs-container"> */}
+        {/* <p className="twop">2P</p>
           <div className="two-pairs">{scores.twoPairs}</div>
           <button
             className="confirm-two-pairs"
@@ -193,7 +219,7 @@ export default function Score(props) {
             >
               X
             </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );
