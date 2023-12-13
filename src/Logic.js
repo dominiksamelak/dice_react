@@ -15,6 +15,9 @@ export function CountingLogic({ dice }) {
   const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
 
   useEffect(() => {
+    if (isOnePairConfirmed) {
+      return;
+    }
     const countValues = {};
     for (let i = 1; i <= 6; i++) {
       countValues[i] = dice.filter((die) => die.value === i).length;
