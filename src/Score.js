@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 
 export default function Score(props) {
-  const { scores } = props;
+  const { scores, isOnePairConfirmed, setIsOnePairConfirmed } = props;
   const [lockedStates, setLockedStates] = useState({
     onePair: { locked: false, value: null },
     twoPairs: { locked: false, value: null },
@@ -12,8 +12,6 @@ export default function Score(props) {
     quads: { locked: false, value: null },
     poker: { locked: false, value: null },
   });
-
-  const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
 
   const handleLock = (key) => {
     setLockedStates((prevLockedStates) => ({
@@ -37,13 +35,12 @@ export default function Score(props) {
   const handleConfirmButtonClick = (key) => {
     // Lock the score
     handleLock(key);
-  
+
     // If the locked key is 'onePair', set isOnePairConfirmed to true
     if (key === 'onePair') {
       setIsOnePairConfirmed(true);
     }
   };
-
 
   return (
     <section className="player-one-score">
@@ -52,31 +49,29 @@ export default function Score(props) {
           .filter(
             (key) =>
               ![
-                "onePair",
-                "twoPairs",
-                "triple",
-                "straightFlush",
-                "royalFlush",
-                "quads",
-                "poker",
-                "fullHouse",
+                'onePair',
+                'twoPairs',
+                'triple',
+                'straightFlush',
+                'royalFlush',
+                'quads',
+                'poker',
+                'fullHouse',
               ].includes(key)
           )
           .map((key, index) => (
             <div className="die-school-container" key={key}>
               <div className={`school-${key.toLowerCase()}`}>
-                {lockedStates[key]?.locked ? (
-                  `${index + 1}: ${lockedStates[key].value}`
-                ) : (
-                  `${index + 1}: ${scores[key]}`
-                )}
+                {lockedStates[key]?.locked
+                  ? `${index + 1}: ${lockedStates[key].value}`
+                  : `${index + 1}: ${scores[key]}`}
                 <button
                   className={`confirm-${key.toLowerCase()}`}
                   id={`button-${key.toLowerCase()}`}
                   onClick={() => handleConfirmButtonClick(key)}
                   disabled={lockedStates[key]?.locked || scores[key] === '---'}
                 >
-                  {lockedStates[key]?.locked ? <>&#x2714;</> : "Pick"}
+                  {lockedStates[key]?.locked ? <>&#x2714;</> : 'Pick'}
                 </button>
               </div>
             </div>
@@ -87,19 +82,23 @@ export default function Score(props) {
       </div>
 
       <div className="world">
-      <div className="one-pair-container">
+        <div className="one-pair-container">
           <p className="onep">1P</p>
           <div className="one-pair">
             {/* Use isOnePairConfirmed to conditionally render the value */}
-            {isOnePairConfirmed ? `${scores.onePair} (Confirmed)` : scores.onePair}
+            {isOnePairConfirmed
+              ? `${scores.onePair} (Confirmed)`
+              : scores.onePair}
           </div>
           <button
             className="confirm-one-pair"
             id="button-one-pair"
             onClick={() => handleConfirmButtonClick('onePair')}
-            disabled={lockedStates['onePair']?.locked || scores.onePair === '---'}
+            disabled={
+              lockedStates['onePair']?.locked || scores.onePair === '---'
+            }
           >
-            {lockedStates['onePair']?.locked ? <>&#x2714;</> : "Pick"}
+            {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}
           </button>
         </div>
         {/* <div className="two-pairs-container"> */}

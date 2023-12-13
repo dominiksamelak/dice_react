@@ -1,22 +1,27 @@
-import React, { useState } from "react";
-import Die from "./Die";
-import { nanoid } from "nanoid";
-import "./dice.css";
-import Score from "./Score";
-import { CountingLogic } from "./Logic";
+import React, { useState } from 'react';
+import Die from './Die';
+import { nanoid } from 'nanoid';
+import './dice.css';
+import Score from './Score';
+import { CountingLogic } from './Logic';
 
 const DICE_COUNT = 5;
 
 function App() {
   const [dice, setDice] = useState(newRoll());
-  const { scores, schoolScoreCount, isOnePairConfirmed } = CountingLogic({ dice }); // Use CountingLogic and get returned values
+  const {
+    scores,
+    schoolScoreCount,
+    isOnePairConfirmed,
+    setIsOnePairConfirmed,
+  } = CountingLogic({
+    dice,
+  }); // Use CountingLogic and get returned values
 
   function newRoll() {
-    return Array(DICE_COUNT)
-      .fill()
-      .map(generateNewDie);
+    return Array(DICE_COUNT).fill().map(generateNewDie);
   }
-  
+
   function generateNewDie() {
     const diceValue = Math.floor(Math.random() * 6) + 1; // Adjust to generate values between 1 and 6
     return {
@@ -66,6 +71,7 @@ function App() {
           scores={scores}
           schoolScoreCount={schoolScoreCount}
           isOnePairConfirmed={isOnePairConfirmed}
+          setIsOnePairConfirmed={setIsOnePairConfirmed}
         />
       </div>
     </main>
