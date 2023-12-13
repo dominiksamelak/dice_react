@@ -51,7 +51,7 @@ export function CountingLogic({ dice }) {
     if (!isOnePairConfirmed) {
       updatedScores.onePair = onePairScore !== 0 ? onePairScore : '---';
     }
-   
+
     // Calculate the two-pairs score based on face value
     let twoPairsScore = 0;
     let pairsFound = 0;
@@ -93,33 +93,35 @@ export function CountingLogic({ dice }) {
         break;
       }
     }
-    
+
     updatedScores.triple = tripleScore !== 0 ? tripleScore : '---';
 
-
-    let straightFlushScore = 0
-    const sortedValuesStraight = dice.map((die) => die.value).sort((a, b) => a - b);
-    if (
-      (sortedValuesStraight[0] === 1 && sortedValuesStraight[4] === 5)
-    ) {
+    let straightFlushScore = 0;
+    const sortedValuesStraight = dice
+      .map((die) => die.value)
+      .sort((a, b) => a - b);
+    if (sortedValuesStraight[0] === 1 && sortedValuesStraight[4] === 5) {
       straightFlushScore = 15;
     }
 
-    updatedScores.straightFlush = straightFlushScore !== 0 ? straightFlushScore : '---';
+    updatedScores.straightFlush =
+      straightFlushScore !== 0 ? straightFlushScore : '---';
 
-    let royalFlushScore = 0
-    const sortedValuesRoyal = dice.map((die) => die.value).sort((a, b) => a - b);
-    if (
-      (sortedValuesRoyal[0] === 2 && sortedValuesRoyal[4] === 6)
-    ) {
+    let royalFlushScore = 0;
+    const sortedValuesRoyal = dice
+      .map((die) => die.value)
+      .sort((a, b) => a - b);
+    if (sortedValuesRoyal[0] === 2 && sortedValuesRoyal[4] === 6) {
       royalFlushScore = 30;
     }
-  
+
     updatedScores.royalFlush = royalFlushScore !== 0 ? royalFlushScore : '---';
 
     let fullHouseScore = 0;
 
-    const threeOfAKind = Object.keys(countValues).find((key) => countValues[key] === 3);
+    const threeOfAKind = Object.keys(countValues).find(
+      (key) => countValues[key] === 3
+    );
     const pair = Object.keys(countValues).find((key) => countValues[key] === 2);
 
     if (threeOfAKind && pair) {
@@ -129,7 +131,7 @@ export function CountingLogic({ dice }) {
 
     updatedScores.fullHouse = fullHouseScore !== 0 ? fullHouseScore : '---';
 
-    let quadsScore = 0
+    let quadsScore = 0;
     for (let i = 1; i <= 6; i++) {
       if (countValues[i] === 4) {
         quadsScore += 50 + i * 4;
@@ -138,7 +140,7 @@ export function CountingLogic({ dice }) {
 
     updatedScores.quads = quadsScore !== 0 ? quadsScore : '---';
 
-    let pokerScore = 0
+    let pokerScore = 0;
     for (let i = 1; i <= 6; i++) {
       if (countValues[i] === 5) {
         pokerScore += 100 + i * 4;
@@ -146,13 +148,18 @@ export function CountingLogic({ dice }) {
     }
 
     updatedScores.poker = pokerScore !== 0 ? pokerScore : '---';
-    const schoolScoreCount = Object.values(countValues).reduce((acc, value) => acc + value, 0) - countValues[onePairScore / 2];
-
+    const schoolScoreCount =
+      Object.values(countValues).reduce((acc, value) => acc + value, 0) -
+      countValues[onePairScore / 2];
 
     setScores(updatedScores);
     setSchoolScoreCount(schoolScoreCount);
-    console.log(scores)
   }, [dice, isOnePairConfirmed]);
 
-  return { scores, schoolScoreCount, isOnePairConfirmed, setIsOnePairConfirmed };
+  return {
+    scores,
+    schoolScoreCount,
+    isOnePairConfirmed,
+    setIsOnePairConfirmed,
+  };
 }
