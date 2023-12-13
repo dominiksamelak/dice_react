@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Score(props) {
   const { scores } = props;
@@ -13,12 +13,18 @@ export default function Score(props) {
     poker: { locked: false, value: null },
   });
 
+  const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
+
   const handleLock = (key) => {
     setLockedStates((prevLockedStates) => ({
       ...prevLockedStates,
       [key]: { ...prevLockedStates[key], locked: true, value: scores[key] },
     }));
-    console.log(lockedStates)
+
+    // If the locked key is 'onePair', set isOnePairConfirmed to true
+    if (key === 'onePair') {
+      setIsOnePairConfirmed(true);
+    }
   };
 
   const sumLockedValues = () => {
@@ -31,7 +37,13 @@ export default function Score(props) {
   const handleConfirmButtonClick = (key) => {
     // Lock the score
     handleLock(key);
+  
+    // If the locked key is 'onePair', set isOnePairConfirmed to true
+    if (key === 'onePair') {
+      setIsOnePairConfirmed(true);
+    }
   };
+
 
   return (
     <section className="player-one-score">
@@ -75,9 +87,12 @@ export default function Score(props) {
       </div>
 
       <div className="world">
-        <div className="one-pair-container">
+      <div className="one-pair-container">
           <p className="onep">1P</p>
-          <div className="one-pair">{scores.onePair}</div>
+          <div className="one-pair">
+            {/* Use isOnePairConfirmed to conditionally render the value */}
+            {isOnePairConfirmed ? `${scores.onePair} (Confirmed)` : scores.onePair}
+          </div>
           <button
             className="confirm-one-pair"
             id="button-one-pair"
@@ -86,13 +101,6 @@ export default function Score(props) {
           >
             {lockedStates['onePair']?.locked ? <>&#x2714;</> : "Pick"}
           </button>
-          {/* <button
-            className="confirm-one-pair-x"
-            id="button-one-pairx"
-            onClick={() => handleLock('onePair')}
-          >
-            X
-          </button> */}
         </div>
         {/* <div className="two-pairs-container"> */}
         {/* <p className="twop">2P</p>

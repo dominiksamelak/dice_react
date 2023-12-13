@@ -12,6 +12,7 @@ export function CountingLogic({ dice }) {
 
   const [scores, setScores] = useState(initialScores);
   const [schoolScoreCount, setSchoolScoreCount] = useState(0);
+  const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
 
   useEffect(() => {
     const countValues = {};
@@ -45,7 +46,11 @@ export function CountingLogic({ dice }) {
         break;
       }
     }
-    updatedScores.onePair = onePairScore !== 0 ? onePairScore : '---';
+
+    // If onePair is not confirmed, update the score
+    if (!isOnePairConfirmed) {
+      updatedScores.onePair = onePairScore !== 0 ? onePairScore : '---';
+    }
    
     // Calculate the two-pairs score based on face value
     let twoPairsScore = 0;
@@ -146,7 +151,8 @@ export function CountingLogic({ dice }) {
 
     setScores(updatedScores);
     setSchoolScoreCount(schoolScoreCount);
-  }, [dice]);
+    console.log(scores)
+  }, [dice, isOnePairConfirmed]);
 
-  return { scores, schoolScoreCount };
+  return { scores, schoolScoreCount, isOnePairConfirmed, setIsOnePairConfirmed };
 }

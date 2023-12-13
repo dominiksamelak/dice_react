@@ -9,7 +9,7 @@ const DICE_COUNT = 5;
 
 function App() {
   const [dice, setDice] = useState(newRoll());
-  const { scores, schoolScoreCount } = CountingLogic({ dice }); // Use CountingLogic and get returned values
+  const { scores, schoolScoreCount, isOnePairConfirmed } = CountingLogic({ dice }); // Use CountingLogic and get returned values
 
   function newRoll() {
     return Array(DICE_COUNT)
@@ -65,6 +65,7 @@ function App() {
         <Score
           scores={scores}
           schoolScoreCount={schoolScoreCount}
+          isOnePairConfirmed={isOnePairConfirmed}
         />
       </div>
     </main>
