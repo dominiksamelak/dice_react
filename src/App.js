@@ -14,6 +14,20 @@ function App() {
     schoolScoreCount,
     isOnePairConfirmed,
     setIsOnePairConfirmed,
+    isTwoPairsConfirmed,
+    setIsTwoPairsConfirmed,
+    isTripleConfirmed,
+    setIsTripleConfirmed,
+    isStraightFlushConfirmed,
+    setIsStraightFlushConfirmed,
+    isRoyalFlushConfirmed,
+    setIsRoyalFlushConfirmed,
+    isFullHouseConfirmed,
+    setIsFullHouseConfirmed,
+    isQuadsConfirmed,
+    setIsQuadsConfirmed,
+    isPokerConfirmed,
+    setIsPokerConfirmed
   } = CountingLogic({
     dice,
   }); // Use CountingLogic and get returned values
@@ -72,6 +86,21 @@ function App() {
           schoolScoreCount={schoolScoreCount}
           isOnePairConfirmed={isOnePairConfirmed}
           setIsOnePairConfirmed={setIsOnePairConfirmed}
+          isTwoPairsConfirmed={isTwoPairsConfirmed}
+          setIsTwoPairsConfirmed={setIsTwoPairsConfirmed}
+          isTripleConfirmed={isTripleConfirmed}
+          setIsTripleConfirmed={setIsTripleConfirmed}
+          isStraightFlushConfirmed={isStraightFlushConfirmed}
+          setIsStraightFlushConfirmed={setIsStraightFlushConfirmed}
+          isRoyalFlushConfirmed={isRoyalFlushConfirmed}
+          setIsRoyalFlushConfirmed={setIsRoyalFlushConfirmed}
+          isFullHouseConfirmed={isFullHouseConfirmed}
+          setIsFullHouseConfirmed={setIsFullHouseConfirmed}
+          isQuadsConfirmed={isQuadsConfirmed}
+          setIsQuadsConfirmed={setIsQuadsConfirmed}
+          isPokerConfirmed={isPokerConfirmed}
+          setIsPokerConfirmed={setIsPokerConfirmed}
+
         />
       </div>
     </main>

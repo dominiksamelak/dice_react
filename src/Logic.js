@@ -13,11 +13,42 @@ export function CountingLogic({ dice }) {
   const [scores, setScores] = useState(initialScores);
   const [schoolScoreCount, setSchoolScoreCount] = useState(0);
   const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
+  const [isTwoPairsConfirmed, setIsTwoPairsConfirmed] = useState(false);
+  const [isTripleConfirmed, setIsTripleConfirmed] = useState(false)
+  const [isStraightFlushConfirmed, setIsStraightFlushConfirmed] = useState(false)
+  const [isRoyalFlushConfirmed, setIsRoyalFlushConfirmed] = useState(false)
+  const [isFullHouseConfirmed, setIsFullHouseConfirmed] = useState(false)
+  const [isQuadsConfirmed, setIsQuadsConfirmed] = useState(false)
+  const [isPokerConfirmed, setIsPokerConfirmed] = useState(false)
 
   useEffect(() => {
     if (isOnePairConfirmed) {
       return;
     }
+    if(isTwoPairsConfirmed){
+      return
+    }
+    if( isTripleConfirmed){
+      return
+    }
+    if (isStraightFlushConfirmed){
+      return
+    }
+    if(isRoyalFlushConfirmed){
+      return
+    }
+    if(isFullHouseConfirmed){
+      return
+    }
+    if(isQuadsConfirmed){
+      return
+    }
+    if(isPokerConfirmed){
+      return
+    }
+
+
+
     const countValues = {};
     for (let i = 1; i <= 6; i++) {
       countValues[i] = dice.filter((die) => die.value === i).length;
@@ -86,8 +117,10 @@ export function CountingLogic({ dice }) {
     if (pairsFound < 2) {
       twoPairsScore = 0;
     }
-
-    updatedScores.twoPairs = pairsFound === 2 ? twoPairsScore : '---';
+    if(!isTwoPairsConfirmed){
+      updatedScores.twoPairs = pairsFound === 2 ? twoPairsScore : '---';
+    }
+    
 
     let tripleScore = 0;
     for (let i = 1; i <= 6; i++) {
@@ -96,8 +129,10 @@ export function CountingLogic({ dice }) {
         break;
       }
     }
+    if(!isTripleConfirmed){
+      updatedScores.triple = tripleScore !== 0 ? tripleScore : '---';
+    }
 
-    updatedScores.triple = tripleScore !== 0 ? tripleScore : '---';
 
     let straightFlushScore = 0;
     const sortedValuesStraight = dice
@@ -107,8 +142,11 @@ export function CountingLogic({ dice }) {
       straightFlushScore = 15;
     }
 
-    updatedScores.straightFlush =
+    if(!isStraightFlushConfirmed) {
+      updatedScores.straightFlush =
       straightFlushScore !== 0 ? straightFlushScore : '---';
+    }
+
 
     let royalFlushScore = 0;
     const sortedValuesRoyal = dice
@@ -118,7 +156,10 @@ export function CountingLogic({ dice }) {
       royalFlushScore = 30;
     }
 
-    updatedScores.royalFlush = royalFlushScore !== 0 ? royalFlushScore : '---';
+    if(!isRoyalFlushConfirmed){
+      updatedScores.royalFlush = royalFlushScore !== 0 ? royalFlushScore : '---';
+    }
+ 
 
     let fullHouseScore = 0;
 
@@ -131,8 +172,16 @@ export function CountingLogic({ dice }) {
       // If both a three of a kind and a pair are present, it's a full house
       fullHouseScore = threeOfAKind * 3 + pair * 2;
     }
+    for (let i = 1; i <= 6; i++) {
+      if (countValues[i] === 5) {
+        fullHouseScore = i * 5;
+      }
+    }
 
-    updatedScores.fullHouse = fullHouseScore !== 0 ? fullHouseScore : '---';
+      if(!isFullHouseConfirmed){
+        updatedScores.fullHouse = fullHouseScore !== 0 ? fullHouseScore : '---';
+      }
+
 
     let quadsScore = 0;
     for (let i = 1; i <= 6; i++) {
@@ -141,7 +190,10 @@ export function CountingLogic({ dice }) {
       }
     }
 
-    updatedScores.quads = quadsScore !== 0 ? quadsScore : '---';
+      if(!isQuadsConfirmed){
+        updatedScores.quads = quadsScore !== 0 ? quadsScore : '---';
+      }
+
 
     let pokerScore = 0;
     for (let i = 1; i <= 6; i++) {
@@ -150,19 +202,36 @@ export function CountingLogic({ dice }) {
       }
     }
 
-    updatedScores.poker = pokerScore !== 0 ? pokerScore : '---';
+      if(!isPokerConfirmed){
+        updatedScores.poker = pokerScore !== 0 ? pokerScore : '---';
+      }
+
     const schoolScoreCount =
       Object.values(countValues).reduce((acc, value) => acc + value, 0) -
       countValues[onePairScore / 2];
 
     setScores(updatedScores);
     setSchoolScoreCount(schoolScoreCount);
-  }, [dice, isOnePairConfirmed]);
+  }, [dice, isOnePairConfirmed, isTwoPairsConfirmed, isTripleConfirmed, setIsTripleConfirmed, isStraightFlushConfirmed, setIsStraightFlushConfirmed, isRoyalFlushConfirmed, setIsRoyalFlushConfirmed, isFullHouseConfirmed, setIsFullHouseConfirmed, isQuadsConfirmed, setIsQuadsConfirmed, isPokerConfirmed, setIsPokerConfirmed]);
 
   return {
     scores,
     schoolScoreCount,
     isOnePairConfirmed,
     setIsOnePairConfirmed,
+    isTwoPairsConfirmed,
+    setIsTwoPairsConfirmed,
+    isTripleConfirmed,
+    setIsTripleConfirmed,
+    isStraightFlushConfirmed,
+    setIsStraightFlushConfirmed,
+    isRoyalFlushConfirmed,
+    setIsRoyalFlushConfirmed,
+    isFullHouseConfirmed,
+    setIsFullHouseConfirmed,
+    isQuadsConfirmed,
+    setIsQuadsConfirmed,
+    isPokerConfirmed,
+    setIsPokerConfirmed
   };
 }
