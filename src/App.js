@@ -8,7 +8,7 @@ import { CountingLogic } from './Logic';
 const DICE_COUNT = 5;
 
 function App() {
-  const [ currentPlayer, setCurrentPlayer] = useState(1)
+  const [currentPlayer, setCurrentPlayer] = useState(1);
   const [dice, setDice] = useState(newRoll());
   const {
     scores,
@@ -28,9 +28,10 @@ function App() {
     isQuadsConfirmedPlayerOne,
     setIsQuadsConfirmedPlayerOne,
     isPokerConfirmedPlayerOne,
-    setIsPokerConfirmedPlayerOne
+    setIsPokerConfirmedPlayerOne,
   } = CountingLogic({
-    dice, currentPlayer
+    dice,
+    currentPlayer,
   }); // Use CountingLogic and get returned values
 
   function newRoll() {
@@ -92,7 +93,9 @@ function App() {
           isTripleConfirmedPlayerOne={isTripleConfirmedPlayerOne}
           setIsTripleConfirmedPlayerOne={setIsTripleConfirmedPlayerOne}
           isStraightFlushConfirmedPlayerOne={isStraightFlushConfirmedPlayerOne}
-          setIsStraightFlushConfirmedPlayerOne={setIsStraightFlushConfirmedPlayerOne}
+          setIsStraightFlushConfirmedPlayerOne={
+            setIsStraightFlushConfirmedPlayerOne
+          }
           isRoyalFlushConfirmedPlayerOne={isRoyalFlushConfirmedPlayerOne}
           setIsRoyalFlushConfirmedPlayerOne={setIsRoyalFlushConfirmedPlayerOne}
           isFullHouseConfirmedPlayerOne={isFullHouseConfirmedPlayerOne}
