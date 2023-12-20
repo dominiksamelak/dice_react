@@ -82,7 +82,31 @@ function App() {
       <button onClick={rollAll}>Roll all</button>
       <button onClick={rollUnselected}>Roll unselected</button>
       {/* Pass scores and schoolScoreCount as props to Score component */}
-      <div>
+      <div className="score-container">
+        <Score
+          scores={scores}
+          schoolScoreCount={schoolScoreCount}
+          isOnePairConfirmedPlayerOne={isOnePairConfirmedPlayerOne}
+          setIsOnePairConfirmedPlayerOne={setIsOnePairConfirmedPlayerOne}
+          isTwoPairsConfirmedPlayerOne={isTwoPairsConfirmedPlayerOne}
+          setIsTwoPairsConfirmedPlayerOne={setIsTwoPairsConfirmedPlayerOne}
+          isTripleConfirmedPlayerOne={isTripleConfirmedPlayerOne}
+          setIsTripleConfirmedPlayerOne={setIsTripleConfirmedPlayerOne}
+          isStraightFlushConfirmedPlayerOne={isStraightFlushConfirmedPlayerOne}
+          setIsStraightFlushConfirmedPlayerOne={
+            setIsStraightFlushConfirmedPlayerOne
+          }
+          isRoyalFlushConfirmedPlayerOne={isRoyalFlushConfirmedPlayerOne}
+          setIsRoyalFlushConfirmedPlayerOne={setIsRoyalFlushConfirmedPlayerOne}
+          isFullHouseConfirmedPlayerOne={isFullHouseConfirmedPlayerOne}
+          setIsFullHouseConfirmedPlayerOne={setIsFullHouseConfirmedPlayerOne}
+          isQuadsConfirmedPlayerOne={isQuadsConfirmedPlayerOne}
+          setIsQuadsConfirmedPlayerOne={setIsQuadsConfirmedPlayerOne}
+          isPokerConfirmedPlayerOne={isPokerConfirmedPlayerOne}
+          setIsPokerConfirmedPlayerOne={setIsPokerConfirmedPlayerOne}
+          currentPlayer={currentPlayer}
+          setCurrentPlayer={setCurrentPlayer}
+        />
         <Score
           scores={scores}
           schoolScoreCount={schoolScoreCount}
