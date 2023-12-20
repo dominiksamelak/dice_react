@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function CountingLogic({ dice }) {
+export function CountingLogic({ dice, currentPlayer }) {
   const initialScores = {
     scoreOne: '---',
     scoreTwo: '---',
@@ -11,44 +11,17 @@ export function CountingLogic({ dice }) {
   };
 
   const [scores, setScores] = useState(initialScores);
-  const [schoolScoreCount, setSchoolScoreCount] = useState(0);
-  const [isOnePairConfirmed, setIsOnePairConfirmed] = useState(false);
-  const [isTwoPairsConfirmed, setIsTwoPairsConfirmed] = useState(false);
-  const [isTripleConfirmed, setIsTripleConfirmed] = useState(false)
-  const [isStraightFlushConfirmed, setIsStraightFlushConfirmed] = useState(false)
-  const [isRoyalFlushConfirmed, setIsRoyalFlushConfirmed] = useState(false)
-  const [isFullHouseConfirmed, setIsFullHouseConfirmed] = useState(false)
-  const [isQuadsConfirmed, setIsQuadsConfirmed] = useState(false)
-  const [isPokerConfirmed, setIsPokerConfirmed] = useState(false)
+  const [schoolScoreCount, setSchoolScoreCount] = useState(1);
+  const [isOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerOne] = useState(false);
+  const [isTwoPairsConfirmedPlayerOne, setIsTwoPairsConfirmedPlayerOne] = useState(false);
+  const [isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne] = useState(false)
+  const [isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne] = useState(false)
+  const [isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne] = useState(false)
+  const [isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne] = useState(false)
+  const [isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne] = useState(false)
+  const [isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne] = useState(false)
 
   useEffect(() => {
-    if (isOnePairConfirmed) {
-      return;
-    }
-    if(isTwoPairsConfirmed){
-      return
-    }
-    if( isTripleConfirmed){
-      return
-    }
-    if (isStraightFlushConfirmed){
-      return
-    }
-    if(isRoyalFlushConfirmed){
-      return
-    }
-    if(isFullHouseConfirmed){
-      return
-    }
-    if(isQuadsConfirmed){
-      return
-    }
-    if(isPokerConfirmed){
-      return
-    }
-
-
-
     const countValues = {};
     for (let i = 1; i <= 6; i++) {
       countValues[i] = dice.filter((die) => die.value === i).length;
@@ -79,12 +52,18 @@ export function CountingLogic({ dice }) {
         onePairScore = i * 2;
         break;
       }
+      // debugger
     }
 
     // If onePair is not confirmed, update the score
-    if (!isOnePairConfirmed) {
-      updatedScores.onePair = onePairScore !== 0 ? onePairScore : '---';
-    }
+ if (currentPlayer === 1) {
+  if (!isOnePairConfirmedPlayerOne) {
+    updatedScores.onePairPlayerOne = onePairScore !== 0 ? onePairScore : '---';
+ }
+ } else {
+  console.log(currentPlayer + 'chuj')
+ }
+
 
     // Calculate the two-pairs score based on face value
     let twoPairsScore = 0;
@@ -117,8 +96,8 @@ export function CountingLogic({ dice }) {
     if (pairsFound < 2) {
       twoPairsScore = 0;
     }
-    if(!isTwoPairsConfirmed){
-      updatedScores.twoPairs = pairsFound === 2 ? twoPairsScore : '---';
+    if(!isTwoPairsConfirmedPlayerOne){
+      updatedScores.twoPairsPlayerOne = pairsFound === 2 ? twoPairsScore : '---';
     }
     
 
@@ -129,8 +108,8 @@ export function CountingLogic({ dice }) {
         break;
       }
     }
-    if(!isTripleConfirmed){
-      updatedScores.triple = tripleScore !== 0 ? tripleScore : '---';
+    if(!isTripleConfirmedPlayerOne){
+      updatedScores.triplePlayerOne = tripleScore !== 0 ? tripleScore : '---';
     }
 
 
@@ -142,8 +121,8 @@ export function CountingLogic({ dice }) {
       straightFlushScore = 15;
     }
 
-    if(!isStraightFlushConfirmed) {
-      updatedScores.straightFlush =
+    if(!isStraightFlushConfirmedPlayerOne) {
+      updatedScores.straightFlushPlayerOne =
       straightFlushScore !== 0 ? straightFlushScore : '---';
     }
 
@@ -156,8 +135,8 @@ export function CountingLogic({ dice }) {
       royalFlushScore = 30;
     }
 
-    if(!isRoyalFlushConfirmed){
-      updatedScores.royalFlush = royalFlushScore !== 0 ? royalFlushScore : '---';
+    if(!isRoyalFlushConfirmedPlayerOne){
+      updatedScores.royalFlushPlayerOne = royalFlushScore !== 0 ? royalFlushScore : '---';
     }
  
 
@@ -178,8 +157,8 @@ export function CountingLogic({ dice }) {
       }
     }
 
-      if(!isFullHouseConfirmed){
-        updatedScores.fullHouse = fullHouseScore !== 0 ? fullHouseScore : '---';
+      if(!isFullHouseConfirmedPlayerOne){
+        updatedScores.fullHousePlayerOne = fullHouseScore !== 0 ? fullHouseScore : '---';
       }
 
 
@@ -190,8 +169,8 @@ export function CountingLogic({ dice }) {
       }
     }
 
-      if(!isQuadsConfirmed){
-        updatedScores.quads = quadsScore !== 0 ? quadsScore : '---';
+      if(!isQuadsConfirmedPlayerOne){
+        updatedScores.quadsPlayerOne = quadsScore !== 0 ? quadsScore : '---';
       }
 
 
@@ -202,8 +181,8 @@ export function CountingLogic({ dice }) {
       }
     }
 
-      if(!isPokerConfirmed){
-        updatedScores.poker = pokerScore !== 0 ? pokerScore : '---';
+      if(!isPokerConfirmedPlayerOne){
+        updatedScores.pokerPlayerOne = pokerScore !== 0 ? pokerScore : '---';
       }
 
     const schoolScoreCount =
@@ -212,26 +191,26 @@ export function CountingLogic({ dice }) {
 
     setScores(updatedScores);
     setSchoolScoreCount(schoolScoreCount);
-  }, [dice, isOnePairConfirmed, isTwoPairsConfirmed, isTripleConfirmed, setIsTripleConfirmed, isStraightFlushConfirmed, setIsStraightFlushConfirmed, isRoyalFlushConfirmed, setIsRoyalFlushConfirmed, isFullHouseConfirmed, setIsFullHouseConfirmed, isQuadsConfirmed, setIsQuadsConfirmed, isPokerConfirmed, setIsPokerConfirmed]);
+  }, [dice, isOnePairConfirmedPlayerOne, isTwoPairsConfirmedPlayerOne, isTripleConfirmedPlayerOne , setIsTripleConfirmedPlayerOne, isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne, isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne, isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne, isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne, isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne, currentPlayer]);
 
   return {
     scores,
     schoolScoreCount,
-    isOnePairConfirmed,
-    setIsOnePairConfirmed,
-    isTwoPairsConfirmed,
-    setIsTwoPairsConfirmed,
-    isTripleConfirmed,
-    setIsTripleConfirmed,
-    isStraightFlushConfirmed,
-    setIsStraightFlushConfirmed,
-    isRoyalFlushConfirmed,
-    setIsRoyalFlushConfirmed,
-    isFullHouseConfirmed,
-    setIsFullHouseConfirmed,
-    isQuadsConfirmed,
-    setIsQuadsConfirmed,
-    isPokerConfirmed,
-    setIsPokerConfirmed
+    isOnePairConfirmedPlayerOne,
+    setIsOnePairConfirmedPlayerOne,
+    isTwoPairsConfirmedPlayerOne,
+    setIsTwoPairsConfirmedPlayerOne,
+    isTripleConfirmedPlayerOne,
+    setIsTripleConfirmedPlayerOne,
+    isStraightFlushConfirmedPlayerOne,
+    setIsStraightFlushConfirmedPlayerOne,
+    isRoyalFlushConfirmedPlayerOne,
+    setIsRoyalFlushConfirmedPlayerOne,
+    isFullHouseConfirmedPlayerOne,
+    setIsFullHouseConfirmedPlayerOne,
+    isQuadsConfirmedPlayerOne,
+    setIsQuadsConfirmedPlayerOne,
+    isPokerConfirmedPlayerOne,
+    setIsPokerConfirmedPlayerOne
   };
 }

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 
 export default function Score(props) {
-  const { scores, isOnePairConfirmed, setIsOnePairConfirmed, setIsTwoPairsConfirmed, isTwoPairsConfirmed, isTripleConfirmed, setIsTripleConfirmed, isStraightFlushConfirmed, setIsStraightFlushConfirmed, isRoyalFlushConfirmed, setIsRoyalFlushConfirmed, isFullHouseConfirmed, setIsFullHouseConfirmed, isQuadsConfirmed, setIsQuadsConfirmed, isPokerConfirmed, setIsPokerConfirmed } = props;
+  const { scores, isOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerOne, setIsTwoPairsConfirmedPlayerOne, isTwoPairsConfirmedPlayerOne, isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne, isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne, isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne,isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne, isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne, isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne, currentPlayer, setCurrentPlayer } = props;
   const [lockedStates, setLockedStates] = useState({
-    onePair: { locked: false, value: null },
-    twoPairs: { locked: false, value: null },
-    triple: { locked: false, value: null },
-    straightFlush: { locked: false, value: null },
-    royalFlush: { locked: false, value: null },
-    fullHouse: { locked: false, value: null },
-    quads: { locked: false, value: null },
-    poker: { locked: false, value: null },
+    onePairPlayerOne: { locked: false, value: null },
+    twoPairsPlayerOne: { locked: false, value: null },
+    triplePlayerOne: { locked: false, value: null },
+    straightFlushPlayerOne: { locked: false, value: null },
+    royalFlushPlayerOne: { locked: false, value: null },
+    fullHousePlayerOne: { locked: false, value: null },
+    quadsPlayerOne: { locked: false, value: null },
+    pokerPlayerOne: { locked: false, value: null },
   });
 
   const handleLock = (key) => {
@@ -20,31 +20,35 @@ export default function Score(props) {
     }));
 
     // If the locked key is 'onePair', set isOnePairConfirmed to true
-    if (key === 'onePair') {
-      setIsOnePairConfirmed(true);
+    if (key === 'onePairPlayerOne') {
+      setIsOnePairConfirmedPlayerOne(true);
     }
-    if(key === 'twoPairs') {
-      setIsTwoPairsConfirmed(true)
+    if(key === 'twoPairsPlayerOne') {
+      setIsTwoPairsConfirmedPlayerOne(true)
     }
-    if(key === 'triple') {
-      setIsTripleConfirmed(true)
+    if(key === 'triplePlayerOne') {
+      setIsTripleConfirmedPlayerOne(true)
     }
-    if(key ==='straightFlush'){
-      setIsStraightFlushConfirmed(true)
+    if(key ==='straightFlushPlayerOne'){
+      setIsStraightFlushConfirmedPlayerOne(true)
     }
-    if(key ==='royalFlush'){
-      setIsRoyalFlushConfirmed(true)
+    if(key ==='royalFlushPlayerOne'){
+      setIsRoyalFlushConfirmedPlayerOne(true)
     }
-    if(key ==='fullHouse'){
-      setIsFullHouseConfirmed(true)
+    if(key ==='fullHousePlayerOne'){
+      setIsFullHouseConfirmedPlayerOne(true)
     }
-    if(key ==='quads'){
-      setIsQuadsConfirmed(true)
+    if(key ==='quadsPlayerOne'){
+      setIsQuadsConfirmedPlayerOne(true)
     }
-    if(key ==='poker'){
-      setIsPokerConfirmed(true)
+    if(key ==='pokerPlayerOne'){
+      setIsPokerConfirmedPlayerOne(true)
     }
   };
+
+  function switchPlayer() {
+    setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); 
+  }
 
   const sumLockedValues = () => {
     return Object.values(lockedStates).reduce(
@@ -56,24 +60,26 @@ export default function Score(props) {
   const handleConfirmButtonClick = (key) => {
     // Lock the score
     handleLock(key);
+    switchPlayer()
+    console.log(lockedStates)
   };
 
   return (
     <main className='scores'>
-      <section className="player-score">
+      <section className='player-score'>
             <div className="school">
               {Object.keys(scores)
                 .filter(
                   (key) =>
                     ![
-                      'onePair',
-                      'twoPairs',
-                      'triple',
-                      'straightFlush',
-                      'royalFlush',
-                      'quads',
-                      'poker',
-                      'fullHouse',
+                      'onePairPlayerOne',
+                      'twoPairsPlayerOne',
+                      'triplePlayerOne',
+                      'straightFlushPlayerOne',
+                      'royalFlushPlayerOne',
+                      'quadsPlayerOne',
+                      'pokerPlayerOne',
+                      'fullHousePlayerOne',
                     ].includes(key)
                 )
                 .map((key, index) => (
@@ -103,113 +109,113 @@ export default function Score(props) {
                 <p className="onep">1P</p>
                 <div className="one-pair">
                   {/* Use isOnePairConfirmed to conditionally render the value */}
-                  {isOnePairConfirmed
-                    ? `${lockedStates.onePair.value} (Confirmed)`
-                    : scores.onePair}
+                  {isOnePairConfirmedPlayerOne
+                    ? `${lockedStates.onePairPlayerOne.value} (Confirmed)`
+                    : scores.onePairPlayerOne}
                 </div>
                 <button
                   className="confirm-one-pair"
                   id="button-one-pair"
-                  onClick={() => handleConfirmButtonClick('onePair')}
+                  onClick={() => handleConfirmButtonClick('onePairPlayerOne')}
                   disabled={
-                    lockedStates['onePair']?.locked || scores.onePair === '---'
+                    lockedStates['onePairPlayerOne']?.locked || scores.onePairPlayerOne === '---'
                   }
                 >
-                  {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}
+                  {lockedStates['onePairPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                 </button>
               </div>
               <div className="two-pairs-container">
                 <p className="twop">2P</p>
                 <div className="two-pairs">
-                  {isTwoPairsConfirmed
-                    ? `${lockedStates.twoPairs.value} (Confirmed)`
-                    : scores.twoPairs}
+                  {isTwoPairsConfirmedPlayerOne
+                    ? `${lockedStates.twoPairsPlayerOne.value} (Confirmed)`
+                    : scores.twoPairsPlayerOne}
                 </div>
                 <button
                   className="confirm-two-pairs"
                   id="button-two-pairs"
-                  onClick={() => handleConfirmButtonClick('twoPairs')}
+                  onClick={() => handleConfirmButtonClick('twoPairsPlayerOne')}
                   disabled={
-                    lockedStates['twoPairs']?.locked || scores.twoPairs === '---'
+                    lockedStates['twoPairsPlayerOne']?.locked || scores.twoPairsPlayerOne === '---'
                   }
                 >
-                  {lockedStates['twoPairs']?.locked ? <>&#x2714;</> : 'Pick'}
+                  {lockedStates['twoPairsPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                 </button>
               </div>
               
               <div className="triple-containerr">
               <p className="triplep">T</p>
                 <div className="triple">
-                  {isTripleConfirmed ? `${lockedStates.triple.value}` : scores.triple}
+                  {isTripleConfirmedPlayerOne ? `${lockedStates.triplePlayerOne.value}` : scores.triplePlayerOne}
                 </div>
                   <button
                     className="confirm-triple"
                     id="button-triple"
-                    onClick={() => handleConfirmButtonClick('triple')}
-                    disabled={lockedStates['triple']?.locked || scores.triple === '---'}
+                    onClick={() => handleConfirmButtonClick('triplePlayerOne')}
+                    disabled={lockedStates['triplePlayerOne']?.locked || scores.triplePlayerOne === '---'}
                   >
-                    {lockedStates['triple']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['triplePlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div>
               <div className="straight-flush-container">
               <p className="straight-flushp">SF</p>
-                <div className="straight-flush">{isStraightFlushConfirmed ? `${lockedStates.straightFlush.value}` : scores.straightFlush}</div>
+                <div className="straight-flush">{isStraightFlushConfirmedPlayerOne ? `${lockedStates.straightFlushPlayerOne.value}` : scores.straightFlushPlayerOne}</div>
                   <button 
                     className="confirm-straight-flush"
                     id="button-straight-flush"
-                    onClick={() => handleConfirmButtonClick('straightFlush')}
-                    disabled={lockedStates['straightFlush']?.locked || scores.straightFlush === '---'}
+                    onClick={() => handleConfirmButtonClick('straightFlushPlayerOne')}
+                    disabled={lockedStates['straightFlushPlayerOne']?.locked || scores.straightFlushPlayerOne === '---'}
                   >
-                    {lockedStates['straightFlush']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['straightFlushPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div>
               </div>
               <div className="royal-flush-container">
                 <p className="straight-flushp">RF</p>
-                  <div className="royal-flush">{isRoyalFlushConfirmed ? `${lockedStates.royalFlush.value}` : scores.royalFlush}</div>
+                  <div className="royal-flush">{isRoyalFlushConfirmedPlayerOne ? `${lockedStates.royalFlushPlayerOne.value}` : scores.royalFlushPlayerOne}</div>
                   <button 
                   className="confirm-royal-flush"
                     id="button-royal-flush"
-                    onClick={() => handleConfirmButtonClick('royalFlush')}
-                    disabled={lockedStates['royalFlush']?.locked || scores.royalFlush === '---'}
+                    onClick={() => handleConfirmButtonClick('royalFlushPlayerOne')}
+                    disabled={lockedStates['royalFlushPlayerOne']?.locked || scores.royalFlushPlayerOne === '---'}
                   >
-                    {lockedStates['royalFlush']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['royalFlushPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div> 
               <div className='full-house-container'>
               <p className="full-housep">FH</p>
-                  <div className="full-house">{isFullHouseConfirmed ? `${lockedStates.fullHouse.value}` : scores.fullHouse}</div>
+                  <div className="full-house">{isFullHouseConfirmedPlayerOne ? `${lockedStates.fullHousePlayerOne.value}` : scores.fullHousePlayerOne}</div>
                   <button 
                   className="confirm-full-house"
                     id="button-full-house"
-                    onClick={() => handleConfirmButtonClick('fullHouse')}
-                    disabled={lockedStates['fullHouse']?.locked || scores.fullHouse === '---'}
+                    onClick={() => handleConfirmButtonClick('fullHousePlayerOne')}
+                    disabled={lockedStates['fullHousePlayerOne']?.locked || scores.fullHousePlayerOne === '---'}
                   >
-                    {lockedStates['fullHouse']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['fullHousePlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div>  
               <div className='quads-container'>
               <p className="quadsp">Q</p>
-                  <div className="quads">{isQuadsConfirmed ? `${lockedStates.quads.value}` : scores.quads}</div>
+                  <div className="quads">{isQuadsConfirmedPlayerOne ? `${lockedStates.quadsPlayerOne.value}` : scores.quadsPlayerOne}</div>
                   <button 
                   className="confirm-quads"
                     id="button-quads"
-                    onClick={() => handleConfirmButtonClick('quads')}
-                    disabled={lockedStates['quads']?.locked || scores.quads === '---'}
+                    onClick={() => handleConfirmButtonClick('quadsPlayerOne')}
+                    disabled={lockedStates['quadsPlayerOne']?.locked || scores.quadsPlayerOne === '---'}
                   >
-                    {lockedStates['quads']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['quadsPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div> 
               <div className='poker-container'>
               <p className="pokerp">P</p>
-                  <div className="poker">{isPokerConfirmed ? `${lockedStates.poker.value}` : scores.poker}</div>
+                  <div className="poker">{isPokerConfirmedPlayerOne ? `${lockedStates.pokerPlayerOne.value}` : scores.pokerPlayerOne}</div>
                   <button 
                   className="confirm-poker"
                     id="button-poker"
-                    onClick={() => handleConfirmButtonClick('poker')}
-                    disabled={lockedStates['poker']?.locked || scores.poker === '---'}
+                    onClick={() => handleConfirmButtonClick('pokerPlayerOne')}
+                    disabled={lockedStates['pokerPlayerOne']?.locked || scores.poker === '---'}
                   >
-                    {lockedStates['poker']?.locked ? <>&#x2714;</> : 'Pick'}
+                    {lockedStates['pokerPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button>
               </div>       
           </section>
