@@ -17,3 +17,8 @@
 .school-score-container {
   margin: 20px 0 0 0;
 }
+
+.score-container {
+  display: flex;
+  flex-direction: row;
+}
