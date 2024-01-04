@@ -10,25 +10,8 @@ const DICE_COUNT = 5;
 function App() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [dice, setDice] = useState(newRoll());
-  const initialScores = {
-    scoreOne: '---',
-    scoreTwo: '---',
-    scoreThree: '---',
-    scoreFour: '---',
-    scoreFive: '---',
-    scoreSix: '---',
-  };
-
-  const [scoresPlayerOne, setScoresPlayerOne] = useState(initialScores);
-  const [scoresPlayerTwo, setScoresPlayerTwo] = useState(initialScores);
-  const updateScoresPlayerOne = (updatedScores) => {
-    setScoresPlayerOne(updatedScores);
-  };
-  const updateScoresPlayerTwo = (updatedScores) => {
-    setScoresPlayerTwo(updatedScores);
-  };
-
   const {
+    scores,
     schoolScoreCount,
     isOnePairConfirmedPlayerOne,
     setIsOnePairConfirmedPlayerOne,
@@ -46,8 +29,6 @@ function App() {
     setIsQuadsConfirmedPlayerOne,
     isPokerConfirmedPlayerOne,
     setIsPokerConfirmedPlayerOne,
-    isOnePairConfirmedPlayerTwo,
-    setIsOnePairConfirmedPlayerTwo
   } = CountingLogic({
     dice,
     currentPlayer,
@@ -97,20 +78,13 @@ function App() {
 
   return (
     <main>
-      <CountingLogic
-        scoresPlayerOne={scoresPlayerOne}
-        scoresPlayerTwo={scoresPlayerTwo}
-        updateScoresPlayerOne={updateScoresPlayerOne}
-        updateScoresPlayerTwo={updateScoresPlayerTwo}
-        // Pass other relevant props
-      />
       <div className="dice-container">{diceElements}</div>
       <button onClick={rollAll}>Roll all</button>
       <button onClick={rollUnselected}>Roll unselected</button>
       {/* Pass scores and schoolScoreCount as props to Score component */}
       <div className="score-container">
         <Score
-          scoresPlayerOne={scoresPlayerOne}
+          scores={scores}
           schoolScoreCount={schoolScoreCount}
           isOnePairConfirmedPlayerOne={isOnePairConfirmedPlayerOne}
           setIsOnePairConfirmedPlayerOne={setIsOnePairConfirmedPlayerOne}
@@ -134,10 +108,10 @@ function App() {
           setCurrentPlayer={setCurrentPlayer}
         />
         <Score
-          scoresPlayerTwo={scoresPlayerTwo}
+          scores={scores}
           schoolScoreCount={schoolScoreCount}
-          isOnePairConfirmedPlayerTwo={isOnePairConfirmedPlayerTwo}
-          setIsOnePairConfirmedPlayerTwo={setIsOnePairConfirmedPlayerTwo}
+          isOnePairConfirmedPlayerOne={isOnePairConfirmedPlayerOne}
+          setIsOnePairConfirmedPlayerOne={setIsOnePairConfirmedPlayerOne}
           isTwoPairsConfirmedPlayerOne={isTwoPairsConfirmedPlayerOne}
           setIsTwoPairsConfirmedPlayerOne={setIsTwoPairsConfirmedPlayerOne}
           isTripleConfirmedPlayerOne={isTripleConfirmedPlayerOne}
