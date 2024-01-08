@@ -10,10 +10,12 @@ export function CountingLogic({ dice, currentPlayer }) {
     scoreSix: '---',
   };
 
-  const [scores, setScores] = useState(initialScores);
+  const [scoresPlayerOne, setScoresPlayerOne] = useState(initialScores);
+  const [scoresPlayerTwo, setScoresPlayerTwo] = useState(initialScores)
   const [schoolScoreCount, setSchoolScoreCount] = useState(1);
   const [isOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerOne] =
     useState(false);
+    const [isOnePairConfirmedPlayerTwo, setIsOnePairConfirmedPlayerTwo] = useState(false);
   const [isTwoPairsConfirmedPlayerOne, setIsTwoPairsConfirmedPlayerOne] =
     useState(false);
   const [isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne] =
@@ -37,21 +39,22 @@ export function CountingLogic({ dice, currentPlayer }) {
       countValues[i] = dice.filter((die) => die.value === i).length;
     }
 
-    const updatedScores = {};
+    const updatedScoresPlayerOne = {};
+    const updatedScoresPlayerTwo = {};
     for (let i = 1; i <= 6; i++) {
       const countValue = countValues[i];
       if (countValue === 1) {
-        updatedScores[`score${i}`] = -2 * i;
+        updatedScoresPlayerOne[`score${i}`] = -2 * i;
       } else if (countValue === 2) {
-        updatedScores[`score${i}`] = -i;
+        updatedScoresPlayerOne[`score${i}`] = -i;
       } else if (countValue === 3) {
-        updatedScores[`score${i}`] = 0;
+        updatedScoresPlayerOne[`score${i}`] = 0;
       } else if (countValue === 4) {
-        updatedScores[`score${i}`] = i; // Updated to double the value for four of a kind
+        updatedScoresPlayerOne[`score${i}`] = i; // Updated to double the value for four of a kind
       } else if (countValue === 5) {
-        updatedScores[`score${i}`] = i * 2; // Updated to double the value for five of a kind
+        updatedScoresPlayerOne[`score${i}`] = i * 2; // Updated to double the value for five of a kind
       } else {
-        updatedScores[`score${i}`] = '---';
+        updatedScoresPlayerOne[`score${i}`] = '---';
       }
     }
 
@@ -68,12 +71,18 @@ export function CountingLogic({ dice, currentPlayer }) {
     // If onePair is not confirmed, update the score
     if (currentPlayer === 1) {
       if (!isOnePairConfirmedPlayerOne) {
-        updatedScores.onePairPlayerOne =
+        updatedScoresPlayerOne.onePairPlayerOne =
           onePairScore !== 0 ? onePairScore : '---';
       }
-    } else {
-      console.log(currentPlayer + 'chuj');
-    }
+    } 
+    if (currentPlayer === 2) {
+      if (!isOnePairConfirmedPlayerTwo) {
+        updatedScoresPlayerTwo.onePairPlayerTwo =
+          onePairScore !== 0 ? onePairScore : '---';
+      }
+    } 
+
+
 
     // Calculate the two-pairs score based on face value
     let twoPairsScore = 0;
@@ -107,7 +116,7 @@ export function CountingLogic({ dice, currentPlayer }) {
       twoPairsScore = 0;
     }
     if (!isTwoPairsConfirmedPlayerOne) {
-      updatedScores.twoPairsPlayerOne =
+      updatedScoresPlayerOne.twoPairsPlayerOne =
         pairsFound === 2 ? twoPairsScore : '---';
     }
 
@@ -119,7 +128,7 @@ export function CountingLogic({ dice, currentPlayer }) {
       }
     }
     if (!isTripleConfirmedPlayerOne) {
-      updatedScores.triplePlayerOne = tripleScore !== 0 ? tripleScore : '---';
+      updatedScoresPlayerOne.triplePlayerOne = tripleScore !== 0 ? tripleScore : '---';
     }
 
     let straightFlushScore = 0;
@@ -131,7 +140,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     }
 
     if (!isStraightFlushConfirmedPlayerOne) {
-      updatedScores.straightFlushPlayerOne =
+      updatedScoresPlayerOne.straightFlushPlayerOne =
         straightFlushScore !== 0 ? straightFlushScore : '---';
     }
 
@@ -144,7 +153,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     }
 
     if (!isRoyalFlushConfirmedPlayerOne) {
-      updatedScores.royalFlushPlayerOne =
+      updatedScoresPlayerOne.royalFlushPlayerOne =
         royalFlushScore !== 0 ? royalFlushScore : '---';
     }
 
@@ -166,7 +175,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     }
 
     if (!isFullHouseConfirmedPlayerOne) {
-      updatedScores.fullHousePlayerOne =
+      updatedScoresPlayerOne.fullHousePlayerOne =
         fullHouseScore !== 0 ? fullHouseScore : '---';
     }
 
@@ -178,7 +187,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     }
 
     if (!isQuadsConfirmedPlayerOne) {
-      updatedScores.quadsPlayerOne = quadsScore !== 0 ? quadsScore : '---';
+      updatedScoresPlayerOne.quadsPlayerOne = quadsScore !== 0 ? quadsScore : '---';
     }
 
     let pokerScore = 0;
@@ -189,14 +198,15 @@ export function CountingLogic({ dice, currentPlayer }) {
     }
 
     if (!isPokerConfirmedPlayerOne) {
-      updatedScores.pokerPlayerOne = pokerScore !== 0 ? pokerScore : '---';
+      updatedScoresPlayerOne.pokerPlayerOne = pokerScore !== 0 ? pokerScore : '---';
     }
 
     const schoolScoreCount =
       Object.values(countValues).reduce((acc, value) => acc + value, 0) -
       countValues[onePairScore / 2];
 
-    setScores(updatedScores);
+    setScoresPlayerOne(updatedScoresPlayerOne);
+    setScoresPlayerTwo(updatedScoresPlayerTwo);
     setSchoolScoreCount(schoolScoreCount);
   }, [
     dice,
@@ -215,10 +225,12 @@ export function CountingLogic({ dice, currentPlayer }) {
     isPokerConfirmedPlayerOne,
     setIsPokerConfirmedPlayerOne,
     currentPlayer,
+    isOnePairConfirmedPlayerTwo
   ]);
 
   return {
-    scores,
+    scoresPlayerOne,
+    scoresPlayerTwo,
     schoolScoreCount,
     isOnePairConfirmedPlayerOne,
     setIsOnePairConfirmedPlayerOne,
@@ -236,5 +248,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     setIsQuadsConfirmedPlayerOne,
     isPokerConfirmedPlayerOne,
     setIsPokerConfirmedPlayerOne,
+    isOnePairConfirmedPlayerTwo,
+    setIsOnePairConfirmedPlayerTwo
   };
 }
