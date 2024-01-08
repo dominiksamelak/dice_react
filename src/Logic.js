@@ -11,7 +11,7 @@ export function CountingLogic({ dice, currentPlayer }) {
   };
 
   const [scoresPlayerOne, setScoresPlayerOne] = useState(initialScores);
-  const [scoresPlayerTwo, setScoresPlayerTwo] = useState(initialScores)
+  const [scoresPlayerTwo, setScoresPlayerTwo] = useState(initialScores);
   const [schoolScoreCount, setSchoolScoreCount] = useState(1);
   const [isOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerOne] =
     useState(false);
@@ -55,6 +55,23 @@ export function CountingLogic({ dice, currentPlayer }) {
         updatedScoresPlayerOne[`score${i}`] = i * 2; // Updated to double the value for five of a kind
       } else {
         updatedScoresPlayerOne[`score${i}`] = '---';
+      }
+    }
+
+    for (let i = 1; i <= 6; i++) {
+      const countValue = countValues[i];
+      if (countValue === 1) {
+        updatedScoresPlayerTwo[`score${i}`] = -2 * i;
+      } else if (countValue === 2) {
+        updatedScoresPlayerTwo[`score${i}`] = -i;
+      } else if (countValue === 3) {
+        updatedScoresPlayerTwo[`score${i}`] = 0;
+      } else if (countValue === 4) {
+        updatedScoresPlayerTwo[`score${i}`] = i; // Updated to double the value for four of a kind
+      } else if (countValue === 5) {
+        updatedScoresPlayerTwo[`score${i}`] = i * 2; // Updated to double the value for five of a kind
+      } else {
+        updatedScoresPlayerTwo[`score${i}`] = '---';
       }
     }
 
@@ -201,13 +218,13 @@ export function CountingLogic({ dice, currentPlayer }) {
       updatedScoresPlayerOne.pokerPlayerOne = pokerScore !== 0 ? pokerScore : '---';
     }
 
-    const schoolScoreCount =
-      Object.values(countValues).reduce((acc, value) => acc + value, 0) -
-      countValues[onePairScore / 2];
+    // const schoolScoreCount =
+    //   Object.values(countValues).reduce((acc, value) => acc + value, 0) -
+    //   countValues[onePairScore / 2];
 
     setScoresPlayerOne(updatedScoresPlayerOne);
     setScoresPlayerTwo(updatedScoresPlayerTwo);
-    setSchoolScoreCount(schoolScoreCount);
+    // setSchoolScoreCount(schoolScoreCount);
   }, [
     dice,
     isOnePairConfirmedPlayerOne,
@@ -231,7 +248,7 @@ export function CountingLogic({ dice, currentPlayer }) {
   return {
     scoresPlayerOne,
     scoresPlayerTwo,
-    schoolScoreCount,
+    // schoolScoreCount,
     isOnePairConfirmedPlayerOne,
     setIsOnePairConfirmedPlayerOne,
     isTwoPairsConfirmedPlayerOne,

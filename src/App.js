@@ -110,11 +110,11 @@ function App() {
           currentPlayer={currentPlayer}
           setCurrentPlayer={setCurrentPlayer}
         />
-        <Score
+        {/* <Score
           scoresPlayerTwo={scoresPlayerTwo}
           isOnePairConfirmedPlayerTwo={isOnePairConfirmedPlayerTwo}
           setIsOnePairConfirmedPlayerTwo={setIsOnePairConfirmedPlayerTwo}
-        />
+        /> */}
       </div>
     </main>
   );

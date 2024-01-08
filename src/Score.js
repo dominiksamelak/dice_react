@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Score(props) {
-  const { scoresPlayerOne, scoresPlayerTwo, isOnePairConfirmedPlayerOne, isOnePairConfirmedPlayerTwo, setIsOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerTwo, setIsTwoPairsConfirmedPlayerOne, isTwoPairsConfirmedPlayerOne, isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne, isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne, isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne,isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne, isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne, isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne, currentPlayer, setCurrentPlayer } = props;
+  const { scoresPlayerOne, scoresPlayerTwo, isOnePairConfirmedPlayerOne, isOnePairConfirmedPlayerTwo, setIsOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerTwo, setIsTwoPairsConfirmedPlayerOne, isTwoPairsConfirmedPlayerOne, isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne, isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne, isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne,isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne, isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne, isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne } = props;
   const [lockedStates, setLockedStates] = useState({
     onePairPlayerOne: { locked: false, value: null },
     twoPairsPlayerOne: { locked: false, value: null },
@@ -54,12 +54,12 @@ export default function Score(props) {
   //   setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); 
   // }
 
-  const sumLockedValues = () => {
-    return Object.values(lockedStates).reduce(
-      (acc, { value }) => (value !== null ? acc + value : acc),
-      0
-    );
-  };
+  // const sumLockedValues = () => {
+  //   return Object.values(lockedStates).reduce(
+  //     (acc, { value }) => (value !== null ? acc + value : acc),
+  //     0
+  //   );
+  // };
 
   const handleConfirmButtonClick = (key) => {
     // Lock the score
@@ -67,7 +67,7 @@ export default function Score(props) {
     // switchPlayer()
     console.log(lockedStates)
   };
-
+  console.log(scoresPlayerOne)
   return (
     <main className='scores'>
       <section className='player-score'>
@@ -136,7 +136,7 @@ export default function Score(props) {
                 <div className="school-score">{sumLockedValues()}</div>
               </div> */}
             </div>
-
+           
             <div className="world">
               <div className="one-pair-container">
                 <p className="onep">1P</p>
@@ -160,7 +160,7 @@ export default function Score(props) {
                   {/* Use isOnePairConfirmed to conditionally render the value */}
                   {isOnePairConfirmedPlayerTwo
                     ? `${lockedStates.onePairPlayerTwo.value} (Confirmed)`
-                    : scoresPlayerOne.onePairPlayerTwo}
+                    : scoresPlayerTwo.onePairPlayerTwo}
                 </div>
                 <button
                   className="confirm-one-pair"
