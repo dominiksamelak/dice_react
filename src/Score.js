@@ -72,7 +72,7 @@ export default function Score(props) {
     <main className='scores'>
       <section className='player-score'>
             <div className="school-playerone">
-              {Object.keys(scores.scoresPlayerOne)
+              {Object.keys(scores.playerOneScores)
                 .filter(
                   (key) =>
                     ![
