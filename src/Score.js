@@ -1,54 +1,54 @@
 import React, { useState } from 'react';
 
 export default function Score(props) {
-  const { scoresPlayerOne, scoresPlayerTwo, isOnePairConfirmedPlayerOne, isOnePairConfirmedPlayerTwo, setIsOnePairConfirmedPlayerOne, setIsOnePairConfirmedPlayerTwo, setIsTwoPairsConfirmedPlayerOne, isTwoPairsConfirmedPlayerOne, isTripleConfirmedPlayerOne, setIsTripleConfirmedPlayerOne, isStraightFlushConfirmedPlayerOne, setIsStraightFlushConfirmedPlayerOne, isRoyalFlushConfirmedPlayerOne, setIsRoyalFlushConfirmedPlayerOne,isFullHouseConfirmedPlayerOne, setIsFullHouseConfirmedPlayerOne, isQuadsConfirmedPlayerOne, setIsQuadsConfirmedPlayerOne, isPokerConfirmedPlayerOne, setIsPokerConfirmedPlayerOne } = props;
+  const { scores } = props;
   const [lockedStates, setLockedStates] = useState({
     onePairPlayerOne: { locked: false, value: null },
-    twoPairsPlayerOne: { locked: false, value: null },
-    triplePlayerOne: { locked: false, value: null },
-    straightFlushPlayerOne: { locked: false, value: null },
-    royalFlushPlayerOne: { locked: false, value: null },
-    fullHousePlayerOne: { locked: false, value: null },
-    quadsPlayerOne: { locked: false, value: null },
-    pokerPlayerOne: { locked: false, value: null },
-    onePairPlayerTwo: { locked: false, value: null },
+    // twoPairsPlayerOne: { locked: false, value: null },
+    // triplePlayerOne: { locked: false, value: null },
+    // straightFlushPlayerOne: { locked: false, value: null },
+    // royalFlushPlayerOne: { locked: false, value: null },
+    // fullHousePlayerOne: { locked: false, value: null },
+    // quadsPlayerOne: { locked: false, value: null },
+    // pokerPlayerOne: { locked: false, value: null },
+    // onePairPlayerTwo: { locked: false, value: null },
   });
 
   const handleLock = (key) => {
     setLockedStates((prevLockedStates) => ({
       ...prevLockedStates,
-      [key]: { ...prevLockedStates[key], locked: true, value: scoresPlayerOne[key] },
-    }));
+      [key]: { ...prevLockedStates[key], locked: true, value: scores.playerOneScores[key] },
+    }));}
 
-    // If the locked key is 'onePair', set isOnePairConfirmed to true
-    if (key === 'onePairPlayerOne') {
-      setIsOnePairConfirmedPlayerOne(true);
-    }
-    if(key === 'twoPairsPlayerOne') {
-      setIsTwoPairsConfirmedPlayerOne(true)
-    }
-    if(key === 'triplePlayerOne') {
-      setIsTripleConfirmedPlayerOne(true)
-    }
-    if(key ==='straightFlushPlayerOne'){
-      setIsStraightFlushConfirmedPlayerOne(true)
-    }
-    if(key ==='royalFlushPlayerOne'){
-      setIsRoyalFlushConfirmedPlayerOne(true)
-    }
-    if(key ==='fullHousePlayerOne'){
-      setIsFullHouseConfirmedPlayerOne(true)
-    }
-    if(key ==='quadsPlayerOne'){
-      setIsQuadsConfirmedPlayerOne(true)
-    }
-    if(key ==='pokerPlayerOne'){
-      setIsPokerConfirmedPlayerOne(true)
-    }
-    if (key === 'onePairPlayerTwo') {
-      setIsOnePairConfirmedPlayerTwo(true);
-    }
-  };
+  //   // If the locked key is 'onePair', set isOnePairConfirmed to true
+  //   if (key === 'onePairPlayerOne') {
+  //     setIsOnePairConfirmedPlayerOne(true);
+  //   }
+  //   if(key === 'twoPairsPlayerOne') {
+  //     setIsTwoPairsConfirmedPlayerOne(true)
+  //   }
+  //   if(key === 'triplePlayerOne') {
+  //     setIsTripleConfirmedPlayerOne(true)
+  //   }
+  //   if(key ==='straightFlushPlayerOne'){
+  //     setIsStraightFlushConfirmedPlayerOne(true)
+  //   }
+  //   if(key ==='royalFlushPlayerOne'){
+  //     setIsRoyalFlushConfirmedPlayerOne(true)
+  //   }
+  //   if(key ==='fullHousePlayerOne'){
+  //     setIsFullHouseConfirmedPlayerOne(true)
+  //   }
+  //   if(key ==='quadsPlayerOne'){
+  //     setIsQuadsConfirmedPlayerOne(true)
+  //   }
+  //   if(key ==='pokerPlayerOne'){
+  //     setIsPokerConfirmedPlayerOne(true)
+  //   }
+  //   if (key === 'onePairPlayerTwo') {
+  //     setIsOnePairConfirmedPlayerTwo(true);
+  //   }
+  // };
 
   // function switchPlayer() {
   //   setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); 
@@ -67,23 +67,23 @@ export default function Score(props) {
     // switchPlayer()
     console.log(lockedStates)
   };
-  console.log(scoresPlayerOne)
+
   return (
     <main className='scores'>
       <section className='player-score'>
             <div className="school-playerone">
-              {Object.keys(scoresPlayerOne)
+              {Object.keys(scores.scoresPlayerOne)
                 .filter(
                   (key) =>
                     ![
-                      'onePairPlayerOne',
-                      'twoPairsPlayerOne',
-                      'triplePlayerOne',
-                      'straightFlushPlayerOne',
-                      'royalFlushPlayerOne',
-                      'quadsPlayerOne',
-                      'pokerPlayerOne',
-                      'fullHousePlayerOne',
+                      'onePair',
+                      'twoPairs',
+                      'triple',
+                      'straightFlush',
+                      'royalFlush',
+                      'quads',
+                      'pokere',
+                      'fullHouse',
                     ].includes(key)
                 )
                 .map((key, index) => (
@@ -91,12 +91,12 @@ export default function Score(props) {
                     <div className={`school-${key.toLowerCase()}`}>
                       {lockedStates[key]?.locked
                         ? `${index + 1}: ${lockedStates[key].value}`
-                        : `${index + 1}: ${scoresPlayerOne[key]}`}
+                        : `${index + 1}: ${scores.playerOneScores[key]}`}
                       <button
                         className={`confirm-${key.toLowerCase()}`}
                         id={`button-${key.toLowerCase()}`}
                         onClick={() => handleConfirmButtonClick(key)}
-                        disabled={lockedStates[key]?.locked || scoresPlayerOne[key] === '---'}
+                        disabled={lockedStates[key]?.locked || scores.playerOneScores[key] === '---'}
                       >
                         {lockedStates[key]?.locked ? <>&#x2714;</> : 'Pick'}
                       </button>
@@ -106,74 +106,28 @@ export default function Score(props) {
               {/* <div className="school-score-container">
                 <div className="school-score">{sumLockedValues()}</div>
               </div> */}
-            </div>
-            <div className="school-playerone">
-              {Object.keys(scoresPlayerTwo)
-                .filter(
-                  (key) =>
-                    ![
-                      'onePairPlayerTwo'
-                    ].includes(key)
-                )
-                .map((key, index) => (
-                  <div className="die-school-container" key={key}>
-                    <div className={`school-${key.toLowerCase()}`}>
-                      {lockedStates[key]?.locked
-                        ? `${index + 1}: ${lockedStates[key].value}`
-                        : `${index + 1}: ${scoresPlayerTwo[key]}`}
-                      <button
-                        className={`confirm-${key.toLowerCase()}`}
-                        id={`button-${key.toLowerCase()}`}
-                        onClick={() => handleConfirmButtonClick(key)}
-                        disabled={lockedStates[key]?.locked || scoresPlayerTwo[key] === '---'}
-                      >
-                        {lockedStates[key]?.locked ? <>&#x2714;</> : 'Pick'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              {/* <div className="school-score-container">
-                <div className="school-score">{sumLockedValues()}</div>
-              </div> */}
-            </div>
-           
+            </div>           
             <div className="world">
               <div className="one-pair-container">
                 <p className="onep">1P</p>
-                <div className="one-pair-playerone">
+                <div className="one-pair">
                   {/* Use isOnePairConfirmed to conditionally render the value */}
-                  {isOnePairConfirmedPlayerOne
+                  {scores.playerOneScores.isOnePairConfirmed
                     ? `${lockedStates.onePairPlayerOne.value} (Confirmed)`
-                    : scoresPlayerOne.onePairPlayerOne}
+                    : scores.scoresPlayerOne.onePair}
                 </div>
                 <button
                   className="confirm-one-pair"
                   id="button-one-pair"
-                  onClick={() => handleConfirmButtonClick('onePairPlayerOne')}
+                  onClick={() => handleConfirmButtonClick('onePair')}
                   disabled={
-                    lockedStates['onePairPlayerOne']?.locked || scoresPlayerOne.onePairPlayerOne === '---'
+                    lockedStates['onePair']?.locked || scores.scoresPlayerOne.onePair === '---'
                   }
                 >
-                  {lockedStates['onePairPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
-                </button>
-                <div className="one-pair-playertwo">
-                  {/* Use isOnePairConfirmed to conditionally render the value */}
-                  {isOnePairConfirmedPlayerTwo
-                    ? `${lockedStates.onePairPlayerTwo.value} (Confirmed)`
-                    : scoresPlayerTwo.onePairPlayerTwo}
-                </div>
-                <button
-                  className="confirm-one-pair"
-                  id="button-one-pair"
-                  onClick={() => handleConfirmButtonClick('onePairPlayerTwo')}
-                  disabled={
-                    lockedStates['onePairPlayerTwo']?.locked || scoresPlayerTwo.onePairPlayerTwo === '---'
-                  }
-                >
-                  {lockedStates['onePairPlayerTwo']?.locked ? <>&#x2714;</> : 'Pick'}
+                  {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}
                 </button>
               </div>
-              <div className="two-pairs-container">
+              {/* <div className="two-pairs-container">
                 <p className="twop">2P</p>
                 <div className="two-pairs">
                   {isTwoPairsConfirmedPlayerOne
@@ -265,7 +219,7 @@ export default function Score(props) {
                     disabled={lockedStates['pokerPlayerOne']?.locked || scoresPlayerOne.poker === '---'}
                   >
                     {lockedStates['pokerPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
-                  </button>
+                  </button> */}
               </div>       
           </section>
     </main>

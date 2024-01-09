@@ -11,27 +11,7 @@ function App() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [dice, setDice] = useState(newRoll());
   const {
-    scoresPlayerOne,
-    scoresPlayerTwo,
-    schoolScoreCount,
-    isOnePairConfirmedPlayerOne,
-    setIsOnePairConfirmedPlayerOne,
-    isTwoPairsConfirmedPlayerOne,
-    setIsTwoPairsConfirmedPlayerOne,
-    isTripleConfirmedPlayerOne,
-    setIsTripleConfirmedPlayerOne,
-    isStraightFlushConfirmedPlayerOne,
-    setIsStraightFlushConfirmedPlayerOne,
-    isRoyalFlushConfirmedPlayerOne,
-    setIsRoyalFlushConfirmedPlayerOne,
-    isFullHouseConfirmedPlayerOne,
-    setIsFullHouseConfirmedPlayerOne,
-    isQuadsConfirmedPlayerOne,
-    setIsQuadsConfirmedPlayerOne,
-    isPokerConfirmedPlayerOne,
-    setIsPokerConfirmedPlayerOne,
-    isOnePairConfirmedPlayerTwo,
-    setIsOnePairConfirmedPlayerTwo
+    scores
   } = CountingLogic({
     dice,
     currentPlayer,
@@ -87,34 +67,11 @@ function App() {
       {/* Pass scores and schoolScoreCount as props to Score component */}
       <div className="score-container">
         <Score
-          scoresPlayerOne={scoresPlayerOne}
-          schoolScoreCount={schoolScoreCount}
-          isOnePairConfirmedPlayerOne={isOnePairConfirmedPlayerOne}
-          setIsOnePairConfirmedPlayerOne={setIsOnePairConfirmedPlayerOne}
-          isTwoPairsConfirmedPlayerOne={isTwoPairsConfirmedPlayerOne}
-          setIsTwoPairsConfirmedPlayerOne={setIsTwoPairsConfirmedPlayerOne}
-          isTripleConfirmedPlayerOne={isTripleConfirmedPlayerOne}
-          setIsTripleConfirmedPlayerOne={setIsTripleConfirmedPlayerOne}
-          isStraightFlushConfirmedPlayerOne={isStraightFlushConfirmedPlayerOne}
-          setIsStraightFlushConfirmedPlayerOne={
-            setIsStraightFlushConfirmedPlayerOne
-          }
-          isRoyalFlushConfirmedPlayerOne={isRoyalFlushConfirmedPlayerOne}
-          setIsRoyalFlushConfirmedPlayerOne={setIsRoyalFlushConfirmedPlayerOne}
-          isFullHouseConfirmedPlayerOne={isFullHouseConfirmedPlayerOne}
-          setIsFullHouseConfirmedPlayerOne={setIsFullHouseConfirmedPlayerOne}
-          isQuadsConfirmedPlayerOne={isQuadsConfirmedPlayerOne}
-          setIsQuadsConfirmedPlayerOne={setIsQuadsConfirmedPlayerOne}
-          isPokerConfirmedPlayerOne={isPokerConfirmedPlayerOne}
-          setIsPokerConfirmedPlayerOne={setIsPokerConfirmedPlayerOne}
-          currentPlayer={currentPlayer}
-          setCurrentPlayer={setCurrentPlayer}
+          scores={scores.playerOneScores}
         />
-        {/* <Score
-          scoresPlayerTwo={scoresPlayerTwo}
-          isOnePairConfirmedPlayerTwo={isOnePairConfirmedPlayerTwo}
-          setIsOnePairConfirmedPlayerTwo={setIsOnePairConfirmedPlayerTwo}
-        /> */}
+        <Score
+          scores={scores.playerTwoScores}
+        />
       </div>
     </main>
   );
