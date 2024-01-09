@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 
 export function CountingLogic({ dice, currentPlayer }) {
-
   const initialScores = {
     playerOneScores: {
-      school: '---',
-      onePair:  '---' ,
+      school: {},
+      onePair: '---',
       twoPairs: '---',
       triple: '---',
       straightFlush: '---',
@@ -20,11 +19,11 @@ export function CountingLogic({ dice, currentPlayer }) {
       isRoyalFlushConfirmed: false,
       isFullHouseConfirmed: false,
       isQuadsConfirmed: false,
-      isPokerConfirmed: false
+      isPokerConfirmed: false,
     },
     playerTwoScores: {
-      school: '---',
-      onePair:  '---' ,
+      school: {},
+      onePair: '---',
       twoPairs: '---',
       triple: '---',
       straightFlush: '---',
@@ -39,11 +38,10 @@ export function CountingLogic({ dice, currentPlayer }) {
       isRoyalFlushConfirmed: false,
       isFullHouseConfirmed: false,
       isQuadsConfirmed: false,
-      isPokerConfirmed: false
+      isPokerConfirmed: false,
     },
   };
   const [scores, setScores] = useState(initialScores);
-
 
   const [schoolScoreCount, setSchoolScoreCount] = useState(1);
 
@@ -65,8 +63,8 @@ export function CountingLogic({ dice, currentPlayer }) {
         scores.playerOneScores.school[`Score${i}`] = 0;
         scores.playerTwoScores.school[`Score${i}`] = 0;
       } else if (countValue === 4) {
-        scores.playerOneScores.school[`Score${i}`] = i; 
-        scores.playerTwoScores.school[`Score${i}`] = i;// Updated to double the value for four of a kind
+        scores.playerOneScores.school[`Score${i}`] = i;
+        scores.playerTwoScores.school[`Score${i}`] = i; // Updated to double the value for four of a kind
       } else if (countValue === 5) {
         scores.playerOneScores.school[`Score${i}`] = i * 2;
         scores.playerTwoScores.school[`Score${i}`] = i * 2; // Updated to double the value for five of a kind
@@ -92,15 +90,13 @@ export function CountingLogic({ dice, currentPlayer }) {
         scores.playerOneScores.onePair =
           onePairScore !== 0 ? onePairScore : '---';
       }
-    } 
+    }
     if (currentPlayer === 2) {
       if (!scores.playerTwoScores.isOnePairConfirmed) {
         scores.playerTwoScores.onePair =
           onePairScore !== 0 ? onePairScore : '---';
       }
-    } 
-
-
+    }
 
     // Calculate the two-pairs score based on face value
     let twoPairsScore = 0;
@@ -248,13 +244,28 @@ export function CountingLogic({ dice, currentPlayer }) {
       },
     };
     // setSchoolScoreCount(schoolScoreCount);
-    setScores(updatedScores)
+    setScores(updatedScores);
   }, [
-    dice, scores.playerOneScores.isOnePairConfirmed, scores.playerOneScores.isTwoPairsConfirmed, scores.playerOneScores.isTripleConfirmed, scores.playerOneScores.isStraightFlushConfirmed, scores.playerOneScores.isRoyalFlushConfirmed, scores.playerOneScores.isFullHouseConfirmed, scores.playerOneScores.isQuadsConfirmed, scores.playerOneScores.isPokerConfirmed,
-    scores.playerTwoScores.isOnePairConfirmed, scores.playerTwoScores.isTwoPairsConfirmed, scores.playerTwoScores.isTripleConfirmed, scores.playerTwoScores.isStraightFlushConfirmed, scores.playerTwoScores.isRoyalFlushConfirmed, scores.playerTwoScores.isFullHouseConfirmed, scores.playerTwoScores.isQuadsConfirmed, scores.playerTwoScores.isPokerConfirmed
+    dice,
+    scores.playerOneScores.isOnePairConfirmed,
+    scores.playerOneScores.isTwoPairsConfirmed,
+    scores.playerOneScores.isTripleConfirmed,
+    scores.playerOneScores.isStraightFlushConfirmed,
+    scores.playerOneScores.isRoyalFlushConfirmed,
+    scores.playerOneScores.isFullHouseConfirmed,
+    scores.playerOneScores.isQuadsConfirmed,
+    scores.playerOneScores.isPokerConfirmed,
+    scores.playerTwoScores.isOnePairConfirmed,
+    scores.playerTwoScores.isTwoPairsConfirmed,
+    scores.playerTwoScores.isTripleConfirmed,
+    scores.playerTwoScores.isStraightFlushConfirmed,
+    scores.playerTwoScores.isRoyalFlushConfirmed,
+    scores.playerTwoScores.isFullHouseConfirmed,
+    scores.playerTwoScores.isQuadsConfirmed,
+    scores.playerTwoScores.isPokerConfirmed,
   ]);
 
   return {
-    scores
+    scores,
   };
 }
