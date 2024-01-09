@@ -17,8 +17,9 @@ export default function Score(props) {
   const handleLock = (key) => {
     setLockedStates((prevLockedStates) => ({
       ...prevLockedStates,
-      [key]: { ...prevLockedStates[key], locked: true, value: scores.playerOneScores[key] },
-    }));}
+      [key]: { ...prevLockedStates[key], locked: true, value: scores[key] },
+    }));
+  };
 
   //   // If the locked key is 'onePair', set isOnePairConfirmed to true
   //   if (key === 'onePairPlayerOne') {
@@ -51,7 +52,7 @@ export default function Score(props) {
   // };
 
   // function switchPlayer() {
-  //   setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); 
+  //   setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
   // }
 
   // const sumLockedValues = () => {
@@ -65,67 +66,69 @@ export default function Score(props) {
     // Lock the score
     handleLock(key);
     // switchPlayer()
-    console.log(lockedStates)
+    console.log(lockedStates);
   };
 
   return (
-    <main className='scores'>
-      <section className='player-score'>
-            <div className="school-playerone">
-              {Object.keys(scores.playerOneScores)
-                .filter(
-                  (key) =>
-                    ![
-                      'onePair',
-                      'twoPairs',
-                      'triple',
-                      'straightFlush',
-                      'royalFlush',
-                      'quads',
-                      'pokere',
-                      'fullHouse',
-                    ].includes(key)
-                )
-                .map((key, index) => (
-                  <div className="die-school-container" key={key}>
-                    <div className={`school-${key.toLowerCase()}`}>
-                      {lockedStates[key]?.locked
-                        ? `${index + 1}: ${lockedStates[key].value}`
-                        : `${index + 1}: ${scores.playerOneScores[key]}`}
-                      <button
-                        className={`confirm-${key.toLowerCase()}`}
-                        id={`button-${key.toLowerCase()}`}
-                        onClick={() => handleConfirmButtonClick(key)}
-                        disabled={lockedStates[key]?.locked || scores.playerOneScores[key] === '---'}
-                      >
-                        {lockedStates[key]?.locked ? <>&#x2714;</> : 'Pick'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>      
-                 
-            <div className="world">
-              <div className="one-pair-container">
-                <p className="onep">1P</p>
-                <div className="one-pair">
-                  {/* Use isOnePairConfirmed to conditionally render the value */}
-                  {scores.playerOneScores.isOnePairConfirmed
-                    ? `${lockedStates.onePairPlayerOne.value} (Confirmed)`
-                    : scores.playerOneScores.onePair}
+    <main className="scores">
+      <section className="player-score">
+        <div className="school-playerone">
+          {Object.keys(scores)
+            .filter(
+              (key) =>
+                ![
+                  'onePair',
+                  'twoPairs',
+                  'triple',
+                  'straightFlush',
+                  'royalFlush',
+                  'quads',
+                  'pokere',
+                  'fullHouse',
+                ].includes(key)
+            )
+            .map((key, index) => (
+              <div className="die-school-container" key={key}>
+                <div className={`school-${key.toLowerCase()}`}>
+                  {lockedStates[key]?.locked
+                    ? `${index + 1}: ${lockedStates[key].value}`
+                    : `${index + 1}: ${scores[key]}`}
+                  <button
+                    className={`confirm-${key.toLowerCase()}`}
+                    id={`button-${key.toLowerCase()}`}
+                    onClick={() => handleConfirmButtonClick(key)}
+                    disabled={
+                      lockedStates[key]?.locked || scores[key] === '---'
+                    }
+                  >
+                    {lockedStates[key]?.locked ? <>&#x2714;</> : 'Pick'}
+                  </button>
                 </div>
-                <button
-                  className="confirm-one-pair"
-                  id="button-one-pair"
-                  onClick={() => handleConfirmButtonClick('onePair')}
-                  disabled={
-                    lockedStates['onePair']?.locked || scores.playerOneScores.onePair === '---'
-                  }
-                >
-                  {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}
-                </button>
               </div>
-              {/* <div className="two-pairs-container">
+            ))}
+        </div>
+
+        <div className="world">
+          <div className="one-pair-container">
+            <p className="onep">1P</p>
+            <div className="one-pair">
+              {/* Use isOnePairConfirmed to conditionally render the value */}
+              {scores.isOnePairConfirmed
+                ? `${lockedStates.onePairPlayerOne.value} (Confirmed)`
+                : scores.onePair}
+            </div>
+            <button
+              className="confirm-one-pair"
+              id="button-one-pair"
+              onClick={() => handleConfirmButtonClick('onePair')}
+              disabled={
+                lockedStates['onePair']?.locked || scores.onePair === '---'
+              }
+            >
+              {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}
+            </button>
+          </div>
+          {/* <div className="two-pairs-container">
                 <p className="twop">2P</p>
                 <div className="two-pairs">
                   {isTwoPairsConfirmedPlayerOne
@@ -218,9 +221,8 @@ export default function Score(props) {
                   >
                     {lockedStates['pokerPlayerOne']?.locked ? <>&#x2714;</> : 'Pick'}
                   </button> */}
-              </div>       
-          </section>
+        </div>
+      </section>
     </main>
-   
   );
 }
