@@ -103,10 +103,8 @@ export default function Score(props) {
                     </div>
                   </div>
                 ))}
-              {/* <div className="school-score-container">
-                <div className="school-score">{sumLockedValues()}</div>
-              </div> */}
-            </div>           
+            </div>      
+                 
             <div className="world">
               <div className="one-pair-container">
                 <p className="onep">1P</p>
@@ -114,14 +112,14 @@ export default function Score(props) {
                   {/* Use isOnePairConfirmed to conditionally render the value */}
                   {scores.playerOneScores.isOnePairConfirmed
                     ? `${lockedStates.onePairPlayerOne.value} (Confirmed)`
-                    : scores.scoresPlayerOne.onePair}
+                    : scores.playerOneScores.onePair}
                 </div>
                 <button
                   className="confirm-one-pair"
                   id="button-one-pair"
                   onClick={() => handleConfirmButtonClick('onePair')}
                   disabled={
-                    lockedStates['onePair']?.locked || scores.scoresPlayerOne.onePair === '---'
+                    lockedStates['onePair']?.locked || scores.playerOneScores.onePair === '---'
                   }
                 >
                   {lockedStates['onePair']?.locked ? <>&#x2714;</> : 'Pick'}

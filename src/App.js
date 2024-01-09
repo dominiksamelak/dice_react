@@ -59,6 +59,8 @@ function App() {
     />
   ));
 
+console.log(scores)
+
   return (
     <main>
       <div className="dice-container">{diceElements}</div>

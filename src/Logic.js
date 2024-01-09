@@ -255,7 +255,6 @@ export function CountingLogic({ dice, currentPlayer }) {
   ]);
 
   return {
-    scores,
-
+    scores
   };
 }
