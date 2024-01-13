@@ -8,7 +8,7 @@ import { CountingLogic } from './Logic';
 const DICE_COUNT = 5;
 
 function App() {
-  const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [currentPlayer, setCurrentPlayer] = useState(2);
   const [dice, setDice] = useState(newRoll());
   const {
     scores
@@ -16,6 +16,7 @@ function App() {
     dice,
     currentPlayer,
   }); // Use CountingLogic and get returned values
+  // console.log(scores.playerOneScores)
 
   function newRoll() {
     return Array(DICE_COUNT).fill().map(generateNewDie);
@@ -59,7 +60,7 @@ function App() {
     />
   ));
 
-console.log(scores)
+
 
   return (
     <main>
