@@ -48,7 +48,39 @@ export function CountingLogic({ dice, currentPlayer }) {
   };
   const [scores, setScores] = useState(initialScores);
 
-  const [schoolScoreCount, setSchoolScoreCount] = useState(1);
+  function pickScore(player, scoreType) {
+    setScores((prevScores) => {
+      const updatedScores = { ...prevScores };
+  
+      // Convert player to One or Two
+      const playerString = player === 1 ? 'One' : 'Two';
+      const playerScoresKey = `player${playerString}Scores`;
+  
+      if (!updatedScores[playerScoresKey]) {
+        // Initialize the player's scores if not already present
+        updatedScores[playerScoresKey] = {};
+      }
+  
+      if (!updatedScores[playerScoresKey][scoreType]) {
+        // Initialize the specific score type if not already present
+        updatedScores[playerScoresKey][scoreType] = null; // You can set any default value here
+      }
+  
+      // Update the isConfirmed property within playerScores
+      updatedScores[playerScoresKey][`is${scoreType.charAt(0).toUpperCase()}${scoreType.slice(1)}Confirmed`] = true;
+  
+      console.log(updatedScores);
+  
+      return updatedScores;
+    });
+  }
+
+  const updateScores = useCallback(() => {
+    // The existing logic inside the useEffect
+    // ...
+
+    console.log(scores);
+  }, [dice, currentPlayer, scores]);
 
   useEffect(() => {
     const countValues = {};
@@ -105,7 +137,6 @@ export function CountingLogic({ dice, currentPlayer }) {
         scores.playerOneScores.onePair =
           onePairScore !== 0 ? onePairScore : '---';
       }
-    
 
       if (currentPlayer === 2 && !scores.playerTwoScores.isOnePairConfirmed) {
         scores.playerTwoScores.onePair =
@@ -258,72 +289,48 @@ export function CountingLogic({ dice, currentPlayer }) {
       scores.playerTwoScores.poker = pokerScore !== 0 ? pokerScore : '---';
     }
 
-    const updatedScores = {
-      playerOneScores: {
-        school: scores.playerOneScores.school,
-        onePair: scores.playerOneScores.onePair,
-        twoPairs: scores.playerOneScores.twoPairs,
-        triple: scores.playerOneScores.triple,
-        straightFlush: scores.playerOneScores.straightFlush,
-        royalFlush: scores.playerOneScores.royalFlush,
-        fullHouse: scores.playerOneScores.fullHouse,
-        quads: scores.playerOneScores.quads,
-        poker: scores.playerOneScores.poker,
-        isOnePairConfirmed: false,
-        isTwoPairsConfirmed: false,
-        isTripleConfirmed: false,
-        isStraightFlushConfirmed: false,
-        isRoyalFlushConfirmed: false,
-        isFullHouseConfirmed: false,
-        isQuadsConfirmed: false,
-        isPokerConfirmed: false,
-      },
-      playerTwoScores: {
-        school: scores.playerTwoScores.school,
-        onePair: scores.playerTwoScores.onePair,
-        twoPairs: scores.playerTwoScores.twoPairs,
-        triple: scores.playerTwoScores.triple,
-        straightFlush: scores.playerTwoScores.straightFlush,
-        royalFlush: scores.playerTwoScores.royalFlush,
-        fullHouse: scores.playerTwoScores.fullHouse,
-        quads: scores.playerTwoScores.quads,
-        poker: scores.playerTwoScores.poker,
-        isOnePairConfirmed: false,
-        isTwoPairsConfirmed: false,
-        isTripleConfirmed: false,
-        isStraightFlushConfirmed: false,
-        isRoyalFlushConfirmed: false,
-        isFullHouseConfirmed: false,
-        isQuadsConfirmed: false,
-        isPokerConfirmed: false,
-      },
-    };
+    // const updatedScores = {
+    //   playerOneScores: {
+    //     school: scores.playerOneScores.school,
+    //     onePair: scores.playerOneScores.onePair,
+    //     twoPairs: scores.playerOneScores.twoPairs,
+    //     triple: scores.playerOneScores.triple,
+    //     straightFlush: scores.playerOneScores.straightFlush,
+    //     royalFlush: scores.playerOneScores.royalFlush,
+    //     fullHouse: scores.playerOneScores.fullHouse,
+    //     quads: scores.playerOneScores.quads,
+    //     poker: scores.playerOneScores.poker,
+    //     isOnePairConfirmed: false,
+    //     isTwoPairsConfirmed: false,
+    //     isTripleConfirmed: false,
+    //     isStraightFlushConfirmed: false,
+    //     isRoyalFlushConfirmed: false,
+    //     isFullHouseConfirmed: false,
+    //     isQuadsConfirmed: false,
+    //     isPokerConfirmed: false,
+    //   },
+    //   playerTwoScores: {
+    //     school: scores.playerTwoScores.school,
+    //     onePair: scores.playerTwoScores.onePair,
+    //     twoPairs: scores.playerTwoScores.twoPairs,
+    //     triple: scores.playerTwoScores.triple,
+    //     straightFlush: scores.playerTwoScores.straightFlush,
+    //     royalFlush: scores.playerTwoScores.royalFlush,
+    //     fullHouse: scores.playerTwoScores.fullHouse,
+    //     quads: scores.playerTwoScores.quads,
+    //     poker: scores.playerTwoScores.poker,
+
+    //   },
+    // };
     // setSchoolScoreCount(schoolScoreCount);
-    setScores(updatedScores);
+    // setScores(updatedScores);
+    console.log(scores)
   }, [
     dice,
-    scores.playerOneScores.school,
-    scores.playerOneScores.isOnePairConfirmed,
-    scores.playerOneScores.isTwoPairsConfirmed,
-    scores.playerOneScores.isTripleConfirmed,
-    scores.playerOneScores.isStraightFlushConfirmed,
-    scores.playerOneScores.isRoyalFlushConfirmed,
-    scores.playerOneScores.isFullHouseConfirmed,
-    scores.playerOneScores.isQuadsConfirmed,
-    scores.playerOneScores.isPokerConfirmed,
-    scores.playerTwoScores.school,
-    scores.playerTwoScores.isOnePairConfirmed,
-    scores.playerTwoScores.isTwoPairsConfirmed,
-    scores.playerTwoScores.isTripleConfirmed,
-    scores.playerTwoScores.isStraightFlushConfirmed,
-    scores.playerTwoScores.isRoyalFlushConfirmed,
-    scores.playerTwoScores.isFullHouseConfirmed,
-    scores.playerTwoScores.isQuadsConfirmed,
-    scores.playerTwoScores.isPokerConfirmed,
-    
   ]);
 
   return {
     scores,
+    pickScore
   };
 }

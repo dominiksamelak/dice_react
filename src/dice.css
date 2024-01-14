@@ -22,3 +22,14 @@
   display: flex;
   flex-direction: row;
 }
+
+.scores,
+.world-scores {
+  display: flex;
+  flex-direction: row;
+}
+
+.pick-button {
+  height: 20px;
+  align-self: center;
+}

@@ -11,7 +11,7 @@ function App() {
   const [currentPlayer, setCurrentPlayer] = useState(2);
   const [dice, setDice] = useState(newRoll());
   const {
-    scores
+    scores, pickScore
   } = CountingLogic({
     dice,
     currentPlayer,
@@ -70,11 +70,10 @@ function App() {
       {/* Pass scores and schoolScoreCount as props to Score component */}
       <div className="score-container">
         <Score
-          scores={scores.playerOneScores}
+          scores={scores}
+          onPick={(scoreType) => pickScore(`player${currentPlayer}`, scoreType)}
         />
-        <Score
-          scores={scores.playerTwoScores}
-        />
+
       </div>
     </main>
   );
