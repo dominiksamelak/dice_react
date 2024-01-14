@@ -8,13 +8,14 @@ import { CountingLogic } from './Logic';
 const DICE_COUNT = 5;
 
 function App() {
-  const [currentPlayer, setCurrentPlayer] = useState(2);
+  const [currentPlayer, setCurrentPlayer] = useState(1);
   const [dice, setDice] = useState(newRoll());
   const {
     scores, pickScore
   } = CountingLogic({
     dice,
     currentPlayer,
+    setCurrentPlayer
   }); // Use CountingLogic and get returned values
   // console.log(scores.playerOneScores)
 
@@ -71,7 +72,7 @@ function App() {
       <div className="score-container">
         <Score
           scores={scores}
-          onPick={(scoreType) => pickScore(`player${currentPlayer}`, scoreType)}
+          onPick={(scoreType) => pickScore(currentPlayer, scoreType)}
         />
 
       </div>

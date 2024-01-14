@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export function CountingLogic({ dice, currentPlayer }) {
-  
+export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   const initialScores = {
     playerOneScores: {
-      school: [
-        '---', '---', '---', '---', '---', '---', '---',
-      ],
+      school: ['---', '---', '---', '---', '---', '---', '---'],
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -25,9 +22,7 @@ export function CountingLogic({ dice, currentPlayer }) {
       isPokerConfirmed: false,
     },
     playerTwoScores: {
-      school: [
-       '---', '---', '---', '---', '---', '---', '---',
-      ],
+      school: ['---', '---', '---', '---', '---', '---', '---'],
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -46,37 +41,36 @@ export function CountingLogic({ dice, currentPlayer }) {
       isPokerConfirmed: false,
     },
   };
+
   const [scores, setScores] = useState(initialScores);
 
-  function pickScore(player, scoreType) {
+  const pickScore = useCallback((player, scoreType) => {
+    
     setScores((prevScores) => {
       const updatedScores = { ...prevScores };
+      const newPlayer = currentPlayer === 1 ? 2 : 1;
   
       // Convert player to One or Two
       const playerString = player === 1 ? 'One' : 'Two';
-      const playerScoresKey = `player${playerString}Scores`;
+      console.log(playerString)
+      // Initialize the player's scores if not already present
+      updatedScores[`player${playerString}Scores`] = updatedScores[`player${playerString}Scores`] || {};
   
-      if (!updatedScores[playerScoresKey]) {
-        // Initialize the player's scores if not already present
-        updatedScores[playerScoresKey] = {};
-      }
-  
-      if (!updatedScores[playerScoresKey][scoreType]) {
-        // Initialize the specific score type if not already present
-        updatedScores[playerScoresKey][scoreType] = null; // You can set any default value here
-      }
+      // Initialize the specific score type if not already present
+      updatedScores[`player${playerString}Scores`][scoreType] = updatedScores[`player${playerString}Scores`][scoreType] || null;
   
       // Update the isConfirmed property within playerScores
-      updatedScores[playerScoresKey][`is${scoreType.charAt(0).toUpperCase()}${scoreType.slice(1)}Confirmed`] = true;
+      updatedScores[`player${playerString}Scores`][`is${scoreType.charAt(0).toUpperCase()}${scoreType.slice(1)}Confirmed`] = true;
   
       console.log(updatedScores);
-  
+      setCurrentPlayer(prevPlayer => newPlayer)
       return updatedScores;
     });
-  }
+    
+  }, [setScores, currentPlayer, setCurrentPlayer]);
 
   useEffect(() => {
-    const countValues = {};
+        const countValues = {};
     for (let i = 1; i <= 6; i++) {
       countValues[i] = dice.filter((die) => die.value === i).length;
     }
@@ -281,49 +275,17 @@ export function CountingLogic({ dice, currentPlayer }) {
     if (currentPlayer === 2 && !scores.playerTwoScores.isPokerConfirmed) {
       scores.playerTwoScores.poker = pokerScore !== 0 ? pokerScore : '---';
     }
+    // Update scores based on countValues and currentPlayer
+    setScores((prevScores) => {
+      const updatedScores = { ...prevScores };
+      // ... (your existing scoring logic based on dice values and currentPlayer)
 
-    // const updatedScores = {
-    //   playerOneScores: {
-    //     school: scores.playerOneScores.school,
-    //     onePair: scores.playerOneScores.onePair,
-    //     twoPairs: scores.playerOneScores.twoPairs,
-    //     triple: scores.playerOneScores.triple,
-    //     straightFlush: scores.playerOneScores.straightFlush,
-    //     royalFlush: scores.playerOneScores.royalFlush,
-    //     fullHouse: scores.playerOneScores.fullHouse,
-    //     quads: scores.playerOneScores.quads,
-    //     poker: scores.playerOneScores.poker,
-    //     isOnePairConfirmed: false,
-    //     isTwoPairsConfirmed: false,
-    //     isTripleConfirmed: false,
-    //     isStraightFlushConfirmed: false,
-    //     isRoyalFlushConfirmed: false,
-    //     isFullHouseConfirmed: false,
-    //     isQuadsConfirmed: false,
-    //     isPokerConfirmed: false,
-    //   },
-    //   playerTwoScores: {
-    //     school: scores.playerTwoScores.school,
-    //     onePair: scores.playerTwoScores.onePair,
-    //     twoPairs: scores.playerTwoScores.twoPairs,
-    //     triple: scores.playerTwoScores.triple,
-    //     straightFlush: scores.playerTwoScores.straightFlush,
-    //     royalFlush: scores.playerTwoScores.royalFlush,
-    //     fullHouse: scores.playerTwoScores.fullHouse,
-    //     quads: scores.playerTwoScores.quads,
-    //     poker: scores.playerTwoScores.poker,
-
-    //   },
-    // };
-    // setSchoolScoreCount(schoolScoreCount);
-    // setScores(updatedScores);
-    
-  }, [
-    dice,
-  ]);
+      return updatedScores;
+    });
+  }, [dice, currentPlayer,]);
 
   return {
     scores,
-    pickScore
+    pickScore,
   };
 }

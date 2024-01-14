@@ -30,31 +30,48 @@
         </div>
         <div className='world-scores'>
           <p>2p: {scores[`${player}Scores`].twoPairs}</p>
-          <button className='pick-button'>Pick</button>
+          <button 
+            className='pick-button'
+            onClick={() => props.onPick('twoPairs')}>
+            
+              Pick
+              </button>
         </div>
         <div className='world-scores'>
         <p>T: {scores[`${player}Scores`].triple}</p>
-        <button className='pick-button'>Pick</button>
+        <button className='pick-button'
+        onClick={() => props.onPick('triple')}>
+        Pick</button>
         </div>
         <div className='world-scores'>
           <p>SF: {scores[`${player}Scores`].straightFlush}</p>
-          <button className='pick-button'>Pick</button>
+          <button className='pick-button'
+          onClick={() => props.onPick('straightFlush')}>
+          Pick</button>
         </div>
         <div className='world-scores'>
           <p>RF: {scores[`${player}Scores`].royalFlush}</p>
-          <button className='pick-button'>Pick</button>
+          <button className='pick-button'
+          onClick={() => props.onPick('royalFlush')}
+          >Pick</button>
         </div>
         <div className='world-scores'>
         <p>FH: {scores[`${player}Scores`].fullHouse}</p>
-        <button className='pick-button'>Pick</button>
+        <button className='pick-button'
+         onClick={() => props.onPick('fullHouse')}
+        >Pick</button>
         </div>
         <div className='world-scores'>
         <p>Q: {scores[`${player}Scores`].quads}</p>
-        <button className='pick-button'>Pick</button>
+        <button className='pick-button'
+          onClick={() => props.onPick('quads')}
+        >Pick</button>
         </div>
         <div className='world-scores'>
           <p>P: {scores[`${player}Scores`].poker}</p>
-          <button className='pick-button'>Pick</button>
+          <button className='pick-button'
+            onClick={() => props.onPick('poker')}
+          >Pick</button>
         </div>
             
             
