@@ -75,13 +75,6 @@ export function CountingLogic({ dice, currentPlayer }) {
     });
   }
 
-  const updateScores = useCallback(() => {
-    // The existing logic inside the useEffect
-    // ...
-
-    console.log(scores);
-  }, [dice, currentPlayer, scores]);
-
   useEffect(() => {
     const countValues = {};
     for (let i = 1; i <= 6; i++) {
@@ -324,7 +317,7 @@ export function CountingLogic({ dice, currentPlayer }) {
     // };
     // setSchoolScoreCount(schoolScoreCount);
     // setScores(updatedScores);
-    console.log(scores)
+    
   }, [
     dice,
   ]);
