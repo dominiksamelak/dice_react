@@ -3,7 +3,12 @@ import { useState, useEffect, useCallback } from 'react';
 export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   const initialScores = {
     playerOneScores: {
-      school: ['---', '---', '---', '---', '---', '---', '---'],
+      one: '---',
+      two: '---',
+      three: '---',
+      four: '---',
+      five: '---',
+      six: '---',
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -22,7 +27,12 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
       isPokerConfirmed: false,
     },
     playerTwoScores: {
-      school: ['---', '---', '---', '---', '---', '---', '---'],
+      one: '---',
+      two: '---',
+      three: '---',
+      four: '---',
+      five: '---',
+      six: '---',
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -75,40 +85,60 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
       countValues[i] = dice.filter((die) => die.value === i).length;
     }
 
-    for (let i = 1; i <= 6; i++) {
-      const countValue = countValues[i];
+  const calculateScore = (count, value) => {
+    const multiplier = count === 1 ? 2 : count === 2 ? 1 : count === 4 ? -1 : count === 5 ? -2 : count === 3 ? 0 : '---'
+    return 0 - value * multiplier;
+  };
 
-      if(currentPlayer === 1){
-        if (countValue === 1) {
-          scores.playerOneScores.school[`${i}`] = -2 * i;    
-        } else if (countValue === 2) {
-          scores.playerOneScores.school[`${i}`] = -i;  
-        } else if (countValue === 3) {
-          scores.playerOneScores.school[`${i}`] = 0;    
-        } else if (countValue === 4) {
-          scores.playerOneScores.school[`${i}`] = i;  
-        } else if (countValue === 5) {
-          scores.playerOneScores.school[`${i}`] = i * 2;
-        } else {
-          scores.playerOneScores.school[`${i}`] = '---';         
-        }
-      } else if (currentPlayer === 2){
-        if (countValue === 1) {
-          scores.playerTwoScores.school[`${i}`] = -2 * i;
-        } else if (countValue === 2) {
-          scores.playerTwoScores.school[`${i}`] = -i;
-        } else if (countValue === 3) {       
-          scores.playerTwoScores.school[`${i}`] = 0;
-        } else if (countValue === 4) {     
-          scores.playerTwoScores.school[`${i}`] = i; // Updated to double the value for four of a kind
-        } else if (countValue === 5) {
-          scores.playerTwoScores.school[`${i}`] = i * 2; // Updated to double the value for five of a kind
-        } else {  
-          scores.playerTwoScores.school[`${i}`] = '---';
-        }
-      }
+  // Calculate scores for one through six
+  for (let i = 1; i <= 6; i++) {
+    const countValue = countValues[i];
+    const scoreKey = i.toString(); // Convert the number to a string for the key
 
+    const scoreToAdd = calculateScore(countValue, i);
+
+    if (currentPlayer === 1) {
+      scores.playerOneScores[scoreKey] = scoreToAdd;
+    } else if (currentPlayer === 2) {
+      scores.playerTwoScores[scoreKey] = scoreToAdd;
     }
+  }
+
+    console.log(scores)
+    // for (let i = 1; i <= 6; i++) {
+    //   const countValue = countValues[i];
+
+    //   if(currentPlayer === 1){
+    //     if (countValue === 1) {
+    //       scores.playerOneScores.school[`${i}`] = -2 * i;    
+    //     } else if (countValue === 2) {
+    //       scores.playerOneScores.school[`${i}`] = -i;  
+    //     } else if (countValue === 3) {
+    //       scores.playerOneScores.school[`${i}`] = 0;    
+    //     } else if (countValue === 4) {
+    //       scores.playerOneScores.school[`${i}`] = i;  
+    //     } else if (countValue === 5) {
+    //       scores.playerOneScores.school[`${i}`] = i * 2;
+    //     } else {
+    //       scores.playerOneScores.school[`${i}`] = '---';         
+    //     }
+    //   } else if (currentPlayer === 2){
+    //     if (countValue === 1) {
+    //       scores.playerTwoScores.school[`${i}`] = -2 * i;
+    //     } else if (countValue === 2) {
+    //       scores.playerTwoScores.school[`${i}`] = -i;
+    //     } else if (countValue === 3) {       
+    //       scores.playerTwoScores.school[`${i}`] = 0;
+    //     } else if (countValue === 4) {     
+    //       scores.playerTwoScores.school[`${i}`] = i; // Updated to double the value for four of a kind
+    //     } else if (countValue === 5) {
+    //       scores.playerTwoScores.school[`${i}`] = i * 2; // Updated to double the value for five of a kind
+    //     } else {  
+    //       scores.playerTwoScores.school[`${i}`] = '---';
+    //     }
+    //   }
+
+    // }
     // Calculate the one-pair score based on face value
     let onePairScore = 0;
     for (let i = 1; i <= 6; i++) {

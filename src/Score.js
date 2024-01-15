@@ -9,24 +9,30 @@
         const playerScores = scores[`${player}Scores`]; 
         return (
           <div key={player}>
-            <h2>{`${player} Scores`}</h2>
-            <p>School: {playerScores.school[0]}</p>
-        <ul>
-          {playerScores.school.slice(1).map((score, index) => (
-            <div className="school-scores" key={index}>
-              {index + 1}: {score}
-              <button>
+            <h2>{`${player} Scores`}</h2> 
+            <div className='school-scores'>
+            <ul>
+          {[1, 2, 3, 4, 5, 6].map((number) => (
+            <div className="score-item" key={number}>
+              <p>{`${number}: ${isNaN(playerScores[number]) ? '---' : playerScores[number]}`}</p>
+              <button
+                className="pick-button"
+                onClick={() => onPick(player, number)}
+              >
                 Pick
               </button>
             </div>
           ))}
         </ul>
-        <div className='world-scores'>
-          <p>1P: {scores[`${player}Scores`].onePair}</p>
-          <button className='pick-button'
+            </div>
+            <div className='world-scores'>
+          <p>2p: {scores[`${player}Scores`].onePair}</p>
+          <button 
+            className='pick-button'
             onClick={() => props.onPick('onePair')}>
-            Pick
-          </button>
+            
+              Pick
+              </button>
         </div>
         <div className='world-scores'>
           <p>2p: {scores[`${player}Scores`].twoPairs}</p>
