@@ -12,17 +12,17 @@
             <h2>{`${player} Scores`}</h2> 
             <div className='school-scores'>
             <ul>
-          {[1, 2, 3, 4, 5, 6].map((number) => (
-            <div className="score-item" key={number}>
-              <p>{`${number}: ${isNaN(playerScores[number]) ? '---' : playerScores[number]}`}</p>
-              <button
-                className="pick-button"
-                onClick={() => onPick(player, number)}
-              >
-                Pick
-              </button>
-            </div>
-          ))}
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+          <div className='world-scores' key={num}>
+            <p>{`${num}: ${playerScores[num] || '---'}`}</p>
+            <button
+              className='pick-button'
+              onClick={() => onPick(`is${num}Confirmed`)}
+            >
+              Pick
+            </button>
+          </div>
+        ))}
         </ul>
             </div>
             <div className='world-scores'>

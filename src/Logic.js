@@ -3,12 +3,12 @@ import { useState, useEffect, useCallback } from 'react';
 export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   const initialScores = {
     playerOneScores: {
-      one: '---',
-      two: '---',
-      three: '---',
-      four: '---',
-      five: '---',
-      six: '---',
+      1: '---',
+      2: '---',
+      3: '---',
+      4: '---',
+      5: '---',
+      6: '---',
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -17,6 +17,12 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
       fullHouse: '---',
       quads: '---',
       poker: '---',
+      is1Confirmed: false,
+      is2Confirmed: false,
+      is3Confirmed: false,
+      is4Confirmed: false,
+      is5Confirmed: false,
+      is6Confirmed: false,
       isOnePairConfirmed: false,
       isTwoPairsConfirmed: false,
       isTripleConfirmed: false,
@@ -27,12 +33,18 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
       isPokerConfirmed: false,
     },
     playerTwoScores: {
-      one: '---',
-      two: '---',
-      three: '---',
-      four: '---',
-      five: '---',
-      six: '---',
+      1: '---',
+      2: '---',
+      3: '---',
+      4: '---',
+      5: '---',
+      6: '---',
+      is1Confirmed: false,
+      is2Confirmed: false,
+      is3Confirmed: false,
+      is4Confirmed: false,
+      is5Confirmed: false,
+      is6Confirmed: false,
       onePair: '---',
       twoPairs: '---',
       triple: '---',
@@ -41,6 +53,7 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
       fullHouse: '---',
       quads: '---',
       poker: '---',
+      is1Confirmed: false,
       isOnePairConfirmed: false,
       isTwoPairsConfirmed: false,
       isTripleConfirmed: false,
@@ -53,6 +66,7 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   };
 
   const [scores, setScores] = useState(initialScores);
+
 
   const pickScore = useCallback((player, scoreType) => {
     
@@ -80,21 +94,36 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   }, [setScores, currentPlayer, setCurrentPlayer]);
 
   useEffect(() => {
-        const countValues = {};
+    const countValues = {};
     for (let i = 1; i <= 6; i++) {
       countValues[i] = dice.filter((die) => die.value === i).length;
     }
 
-  const calculateScore = (count, value) => {
-    const multiplier = count === 1 ? 2 : count === 2 ? 1 : count === 4 ? -1 : count === 5 ? -2 : count === 3 ? 0 : '---'
-    return 0 - value * multiplier;
-  };
+    const calculateScore = (count, value) => {
+      if (count === 3) {
+        return 0;
+      }
+      const multiplier = count === 1 ? 2 : count === 2 ? 1 : count === 4 ? -1 : count === 5 ? -2 : 'chuj';
+      return 0 - value * multiplier;
+    };
 
   // Calculate scores for one through six
   for (let i = 1; i <= 6; i++) {
     const countValue = countValues[i];
     const scoreKey = i.toString(); // Convert the number to a string for the key
-
+    if (!scores[`player${currentPlayer}Scores`]) {
+      scores[`player${currentPlayer}Scores`] = {};
+    }
+  
+    // Check if the score is confirmed, if yes, continue to the next iteration
+    if (!scores[`player${currentPlayer}Scores`]) {
+      scores[`player${currentPlayer}Scores`] = {};
+    }
+  
+    // Check if the score is confirmed, if yes, return to exit the function
+    if (scores[`player${currentPlayer}Scores`][`is${i}Confirmed`] === true) {
+      return;
+    }
     const scoreToAdd = calculateScore(countValue, i);
 
     if (currentPlayer === 1) {
@@ -105,48 +134,12 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
   }
 
     console.log(scores)
-    // for (let i = 1; i <= 6; i++) {
-    //   const countValue = countValues[i];
-
-    //   if(currentPlayer === 1){
-    //     if (countValue === 1) {
-    //       scores.playerOneScores.school[`${i}`] = -2 * i;    
-    //     } else if (countValue === 2) {
-    //       scores.playerOneScores.school[`${i}`] = -i;  
-    //     } else if (countValue === 3) {
-    //       scores.playerOneScores.school[`${i}`] = 0;    
-    //     } else if (countValue === 4) {
-    //       scores.playerOneScores.school[`${i}`] = i;  
-    //     } else if (countValue === 5) {
-    //       scores.playerOneScores.school[`${i}`] = i * 2;
-    //     } else {
-    //       scores.playerOneScores.school[`${i}`] = '---';         
-    //     }
-    //   } else if (currentPlayer === 2){
-    //     if (countValue === 1) {
-    //       scores.playerTwoScores.school[`${i}`] = -2 * i;
-    //     } else if (countValue === 2) {
-    //       scores.playerTwoScores.school[`${i}`] = -i;
-    //     } else if (countValue === 3) {       
-    //       scores.playerTwoScores.school[`${i}`] = 0;
-    //     } else if (countValue === 4) {     
-    //       scores.playerTwoScores.school[`${i}`] = i; // Updated to double the value for four of a kind
-    //     } else if (countValue === 5) {
-    //       scores.playerTwoScores.school[`${i}`] = i * 2; // Updated to double the value for five of a kind
-    //     } else {  
-    //       scores.playerTwoScores.school[`${i}`] = '---';
-    //     }
-    //   }
-
-    // }
-    // Calculate the one-pair score based on face value
     let onePairScore = 0;
     for (let i = 1; i <= 6; i++) {
       if (countValues[i] >= 2) {
         onePairScore = i * 2;
         break;
       }
-      // debugger
     }
 
     // If onePair is not confirmed, update the score
@@ -312,7 +305,8 @@ export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
 
       return updatedScores;
     });
-  }, [dice, currentPlayer,]);
+
+  }, [dice, currentPlayer]);
 
   return {
     scores,
