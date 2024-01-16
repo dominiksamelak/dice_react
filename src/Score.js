@@ -13,20 +13,20 @@
             <div className='school-scores'>
             <ul>
             {[1, 2, 3, 4, 5, 6].map((num) => (
-          <div className='world-scores' key={num}>
-            <p>{`${num}: ${playerScores[num] || '---'}`}</p>
-            <button
-              className='pick-button'
-              onClick={() => onPick(`is${num}Confirmed`)}
-            >
-              Pick
-            </button>
-          </div>
-        ))}
+              <div className='world-scores' key={num}>
+                <p>{`${num}: ${playerScores[num] || '---'}`}</p>
+                <button
+                  className='pick-button'
+                  onClick={() => onPick(`is${num}Confirmed`)}
+                >
+                  Pick
+                </button>
+              </div>
+            ))}
         </ul>
             </div>
             <div className='world-scores'>
-          <p>2p: {scores[`${player}Scores`].onePair}</p>
+          <p>1P: {scores[`${player}Scores`].onePair}</p>
           <button 
             className='pick-button'
             onClick={() => props.onPick('onePair')}>
@@ -35,7 +35,7 @@
               </button>
         </div>
         <div className='world-scores'>
-          <p>2p: {scores[`${player}Scores`].twoPairs}</p>
+          <p>2P: {scores[`${player}Scores`].twoPairs}</p>
           <button 
             className='pick-button'
             onClick={() => props.onPick('twoPairs')}>
