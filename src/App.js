@@ -73,6 +73,7 @@ function App() {
         <Score
           scores={scores}
           onPick={(scoreType) => pickScore(currentPlayer, scoreType)}
+          currentPlayer={currentPlayer}
         />
 
       </div>

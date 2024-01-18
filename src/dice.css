@@ -24,7 +24,8 @@
 }
 
 .scores,
-.world-scores {
+.world-scores,
+.school-scores {
   display: flex;
   flex-direction: row;
 }

@@ -127,11 +127,31 @@
       }
 
       const calculateScore = (count, value) => {
-        if (count === 3) {
-          return 0;
+        // if (count === 3) {
+        //   const result = 0; // Returning 0 instead of null
+        //   console.log('Result:', result);
+        //   return result;
+        // }
+      
+        let multiplier;
+
+        if (count === 1) {
+          multiplier = 2;
+        } else if (count === 2) {
+          multiplier = 1;
+        } else if (count === 4) {
+          multiplier = -1;
+        } else if (count === 5) {
+          multiplier = -2;
+        } else if (count === 3) {
+          multiplier = 0;
+        } else {
+          multiplier = 'chuj';
         }
-        const multiplier = count === 1 ? 2 : count === 2 ? 1 : count === 4 ? -1 : count === 5 ? -2 : 'chuj';
-        return 0 - value * multiplier;
+      
+        // Ensure that the result is a numeric value
+        const result = 0 - value * multiplier;
+        return result
       };
 
     // Calculate scores for one through six
@@ -162,13 +182,18 @@
     
 
       console.log(scores)
-      let onePairScore = 0;
+      let highestPair = 0;
+
+      // Calculate the two-pairs score based on face value
       for (let i = 1; i <= 6; i++) {
         if (countValues[i] >= 2) {
-          onePairScore = i * 2;
-          break;
+          if (i > highestPair) {
+            highestPair = i;
+          }
         }
       }
+
+      let onePairScore = highestPair * 2;
 
       // If onePair is not confirmed, update the score
         if (currentPlayer === 1 && !scores.playerOneScores.isOnePairConfirmed) {
