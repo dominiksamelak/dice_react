@@ -145,13 +145,15 @@
           multiplier = -2;
         } else if (count === 3) {
           multiplier = 0;
-        } else {
+        }   else {
           multiplier = 'chuj';
         }
-      
+     
         // Ensure that the result is a numeric value
-        const result = 0 - value * multiplier;
+        let result = 0 - value * multiplier;
+
         return result
+
       };
 
     // Calculate scores for one through six
