@@ -15,7 +15,7 @@
             <ul>
             {[1, 2, 3, 4, 5, 6].map((num) => (
               <div key={num}>
-                <p>{`${num}: ${playerScores[num] || '---'}`}</p>
+                <p>{`${num}: ${isNaN(playerScores[num]) || playerScores[num] === null ? '---' : playerScores[num]}`}</p>
                 <button
                   className='pick-button'
                   onClick={() => onPick(`is${num}Confirmed`)}
