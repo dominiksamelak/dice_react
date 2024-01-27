@@ -1,6 +1,6 @@
   import { useState, useEffect, useCallback } from 'react';
 
-  export function CountingLogic({ dice, currentPlayer, setCurrentPlayer }) {
+  export function CountingLogic({ dice, currentPlayer, setCurrentPlayer, doubleScores, setDoubleScores }) {
     const initialScores = {
       playerOneScores: {
         1: '---',
@@ -182,8 +182,6 @@
       scores[`player${playerString}Scores`][scoreKey] = scoreToAdd;
     }
     
-
-      console.log(scores)
       let highestPair = 0;
 
       // Calculate the two-pairs score based on face value
@@ -199,13 +197,23 @@
 
       // If onePair is not confirmed, update the score
         if (currentPlayer === 1 && !scores.playerOneScores.isOnePairConfirmed) {
-          scores.playerOneScores.onePair =
+          if(doubleScores){
+            scores.playerOneScores.onePair =
+            onePairScore !== 0 ? 2 * onePairScore : '---';
+          } else {
+            scores.playerOneScores.onePair =
             onePairScore !== 0 ? onePairScore : '---';
+          }
         }
 
         if (currentPlayer === 2 && !scores.playerTwoScores.isOnePairConfirmed) {
-          scores.playerTwoScores.onePair =
+          if(doubleScores){
+            scores.playerTwoScores.onePair =
+            onePairScore !== 0 ? 2 * onePairScore : '---';
+          } else {
+            scores.playerTwoScores.onePair =
             onePairScore !== 0 ? onePairScore : '---';
+          }
         }
 
       // Calculate the two-pairs score based on face value
@@ -241,13 +249,23 @@
 
 
       if (currentPlayer === 1 && !scores.playerOneScores.isTwoPairsConfirmed) {
-        scores.playerOneScores.twoPairs =
+        if(doubleScores){
+          scores.playerOneScores.twoPairs =
+          pairsFound === 2 ? 2 * twoPairsScore : '---';
+        } else {
+          scores.playerOneScores.twoPairs =
           pairsFound === 2 ? twoPairsScore : '---';
+        }
       }
 
       if (currentPlayer === 2 && !scores.playerTwoScores.isTwoPairsConfirmed) {
-        scores.playerTwoScores.twoPairs =
+        if(doubleScores){
+          scores.playerTwoScores.twoPairs =
+          pairsFound === 2 ? 2 * twoPairsScore : '---';
+        } else  {
+          scores.playerTwoScores.twoPairs =
           pairsFound === 2 ? twoPairsScore : '---';
+        }
       }
 
 
@@ -260,10 +278,18 @@
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isTripleConfirmed) {
-        scores.playerOneScores.triple = tripleScore !== 0 ? tripleScore : '---';
+        if(doubleScores){
+          scores.playerOneScores.triple = 2 * tripleScore !== 0 ? tripleScore : '---';
+        } else {
+          scores.playerOneScores.triple = tripleScore !== 0 ? tripleScore : '---';
+        }
       }
-      if (currentPlayer === 2 && !scores.playerTwoScores.isTripleConfirmed) {
-        scores.playerTwoScores.triple = tripleScore !== 0 ? tripleScore : '---';
+      if(doubleScores){
+        if (currentPlayer === 2 && !scores.playerTwoScores.isTripleConfirmed) {
+          scores.playerTwoScores.triple = 2 * tripleScore !== 0 ? tripleScore : '---';
+        } else {
+          scores.playerTwoScores.triple = tripleScore !== 0 ? tripleScore : '---';
+        }
       }
 
       let straightFlushScore = 0;
@@ -275,12 +301,23 @@
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isStraightFlushConfirmed) {
-        scores.playerOneScores.straightFlush =
-          straightFlushScore !== 0 ? straightFlushScore : '---';
+        if(doubleScores){
+          scores.playerOneScores.straightFlush =
+          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+        } else {
+          scores.playerOneScores.straightFlush =
+          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+        }
+
       }
       if (currentPlayer === 2 && !scores.playerTwoScores.isStraightFlushConfirmed) {
-        scores.playerTwoScores.straightFlush =
-          straightFlushScore !== 0 ? straightFlushScore : '---';
+        if(doubleScores){
+          scores.playerTwoScores.straightFlush =
+          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+        } else {
+          scores.playerTwoScores.straightFlush =
+          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+        }
       }
 
       let royalFlushScore = 0;
@@ -292,12 +329,22 @@
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isRoyalFlushConfirmed) {
-        scores.playerOneScores.royalFlush =
+        if(doubleScores){
+          scores.playerOneScores.royalFlush =
+          royalFlushScore !== 0 ? 2 * royalFlushScore : '---';
+        } else {
+          scores.playerOneScores.royalFlush =
           royalFlushScore !== 0 ? royalFlushScore : '---';
+        }
       }
       if (currentPlayer === 2 && !scores.playerTwoScores.isRoyalFlushConfirmed) {
-        scores.playerTwoScores.royalFlush =
+        if(doubleScores){
+          scores.playerTwoScores.royalFlush =
+          royalFlushScore !== 0 ? 2 * royalFlushScore : '---';
+        } else {
+          scores.playerTwoScores.royalFlush =
           royalFlushScore !== 0 ? royalFlushScore : '---';
+        }
       }
 
       let fullHouseScore = 0;
@@ -318,18 +365,32 @@
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isFullHouseConfirmed) {
-        scores.playerOneScores.fullHouse =
+        if(doubleScores){
+          scores.playerOneScores.fullHouse =
+          fullHouseScore !== 0 ? 2 * fullHouseScore : '---';
+        } else {
+          scores.playerOneScores.fullHouse =
           fullHouseScore !== 0 ? fullHouseScore : '---';
+        }
       }
       if (currentPlayer === 2 && !scores.playerTwoScores.isFullHouseConfirmed) {
-        scores.playerTwoScores.fullHouse =
+        if(doubleScores){
+          scores.playerTwoScores.fullHouse =
+          fullHouseScore !== 0 ? 2 * fullHouseScore : '---';
+        } else {
+          scores.playerTwoScores.fullHouse =
           fullHouseScore !== 0 ? fullHouseScore : '---';
+        }
       }
 
       let quadsScore = 0;
       for (let i = 1; i <= 6; i++) {
         if (countValues[i] === 4) {
-          quadsScore += 50 + i * 4;
+          if (doubleScores){
+            quadsScore += 50 + 2 * (i * 4);
+          } else {
+            quadsScore += 50 + i * 4;
+          }
         }
       }
 
@@ -343,7 +404,11 @@
       let pokerScore = 0;
       for (let i = 1; i <= 6; i++) {
         if (countValues[i] === 5) {
-          pokerScore += 100 + i * 4;
+          if(doubleScores){
+            pokerScore += 100 + 2 * (i * 4);
+          } else {
+            pokerScore += 100 + i * 4;
+          }
         }
       }
 

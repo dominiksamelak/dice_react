@@ -10,14 +10,19 @@ const DICE_COUNT = 5;
 function App() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [dice, setDice] = useState(newRoll());
+  const [rollCount, setRollCount] = useState(1)
+  const [disableRollButtons, setDisableRollButtons] = useState(false);
+  const [doubleScores, setDoubleScores] = useState(false);
   const {
     scores, pickScore
   } = CountingLogic({
     dice,
     currentPlayer,
-    setCurrentPlayer
-  }); // Use CountingLogic and get returned values
-  // console.log(scores.playerOneScores)
+    setCurrentPlayer,
+    doubleScores,
+    setDoubleScores
+  }); 
+ console.log(currentPlayer)
 
   function newRoll() {
     return Array(DICE_COUNT).fill().map(generateNewDie);
@@ -32,16 +37,34 @@ function App() {
       src: `${diceValue}.png`,
     };
   }
+  function count() {
+    setRollCount((prevRollCount) => prevRollCount + 1)
+    if (rollCount === 3) {
+      setDisableRollButtons(true);
+    }
+    console.log(rollCount)
+  }
+  
+  function resetRollCount() {
+    setRollCount(1);
+    setDisableRollButtons(false);
+  }
 
   function rollUnselected() {
     setDice((oldDice) =>
       oldDice.map((die) => (die.isHeld ? die : generateNewDie()))
     );
+    count()
+    setDoubleScores(false);
   }
 
   function rollAll() {
     setDice(newRoll());
+    count()
+    setDoubleScores(true);
   }
+
+
 
   function holdDice(id) {
     setDice((oldDice) =>
@@ -61,19 +84,24 @@ function App() {
     />
   ));
 
-
+  const handlePickScore = (scoreType) => {
+    pickScore(currentPlayer, scoreType);
+    setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); // Switch currentPlayer
+    resetRollCount();
+  }; 
 
   return (
     <main>
       <div className="dice-container">{diceElements}</div>
-      <button onClick={rollAll}>Roll all</button>
-      <button onClick={rollUnselected}>Roll unselected</button>
+      <button onClick={rollAll} disabled={disableRollButtons}>Roll all</button>
+      <button onClick={rollUnselected} disabled={disableRollButtons}>Roll unselected</button>
       {/* Pass scores and schoolScoreCount as props to Score component */}
       <div className="score-container">
         <Score
           scores={scores}
-          onPick={(scoreType) => pickScore(currentPlayer, scoreType)}
+          onPick={handlePickScore}
           currentPlayer={currentPlayer}
+          setCurrentPlayer={setCurrentPlayer  }
         />
 
       </div>

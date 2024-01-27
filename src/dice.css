@@ -24,7 +24,6 @@
 }
 
 .scores,
-.world-scores,
 .school-scores {
   display: flex;
   flex-direction: row;
@@ -34,3 +33,5 @@
   height: 20px;
   align-self: center;
 }
+
+/* .world-scores */
