@@ -293,30 +293,33 @@
       }
 
       let straightFlushScore = 0;
-      const sortedValuesStraight = dice
-        .map((die) => die.value)
-        .sort((a, b) => a - b);
-      if (sortedValuesStraight[0] === 1 && sortedValuesStraight[4] === 5) {
-        straightFlushScore = 15;
+      const sortedValuesStraight = dice.map((die) => die.value).sort((a, b) => a - b);
+
+      // Check if the sorted values are [1, 2, 3, 4, 5]
+      const isStraightFlush = sortedValuesStraight.join('') === '12345';
+
+      if (isStraightFlush) {
+        // Only calculate the score if it's a straight flush
+        straightFlushScore = 15; // Adjust this value as needed
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isStraightFlushConfirmed) {
-        if(doubleScores){
+        if (doubleScores) {
           scores.playerOneScores.straightFlush =
-          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+            2 * straightFlushScore !== 0 ? straightFlushScore : '---';
         } else {
           scores.playerOneScores.straightFlush =
-          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+            straightFlushScore !== 0 ? straightFlushScore : '---';
         }
-
       }
+
       if (currentPlayer === 2 && !scores.playerTwoScores.isStraightFlushConfirmed) {
-        if(doubleScores){
+        if (doubleScores) {
           scores.playerTwoScores.straightFlush =
-          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+            2 * straightFlushScore !== 0 ? straightFlushScore : '---';
         } else {
           scores.playerTwoScores.straightFlush =
-          2 * straightFlushScore !== 0 ? straightFlushScore : '---';
+            2 * straightFlushScore !== 0 ? straightFlushScore : '---';
         }
       }
 

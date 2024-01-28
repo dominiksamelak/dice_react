@@ -46,10 +46,14 @@ export default function Score(props) {
     // Switch the currentPlayer after the onPick callback is triggered
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
   };
- console.log(pickedSchoolScores)
-  const  renderPlayerScores = (player) => {
-    const playerScores = scores[`${player}Scores`];
 
+    const  renderPlayerScores = (player) => {
+    const playerScores = scores[`${player}Scores`];
+    const schoolSum = [1, 2, 3, 4, 5, 6].reduce((sum, num) => {
+      const score = playerScores[num];
+      const isScorePicked = disabledButtons[player][`is${num}Confirmed`];
+      return isScorePicked ? sum + (isNaN(score) || score === null ? 0 : score) : sum;
+    }, 0);
     return (
       <div key={player}>
         <h2>{`Player ${player.slice(-3)} Score`}</h2>
@@ -72,12 +76,13 @@ export default function Score(props) {
             ))}
           </ul>
         </div>
+        <p>{`Sum: ${schoolSum}`}</p>
             <div className='world-scores'>
             <p>1P: {scores[`${player}Scores`].onePair}</p>
           <button 
             className='pick-button'
             onClick={() => props.onPick('onePair')}
-            disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.onePair) || pickedSchoolScores[player] < 3 || disabledButtons[player].onePair}>
+            disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.onePair) || pickedSchoolScores[player] < 3 || disabledButtons[player].onePair || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isOnePairConfirmed}>
             Pick
           </button>
           {playerScores.onePairConfirmed && (
@@ -87,50 +92,48 @@ export default function Score(props) {
               <button 
                 className='pick-button'
                 onClick={() => props.onPick('twoPairs')}
-                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.twoPairs) || pickedSchoolScores[player] < 3 || disabledButtons[player].twoPairs}>
-                
+                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.twoPairs) || pickedSchoolScores[player] < 3 || disabledButtons[player].twoPairs || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isTwoPairsConfirmed}>
                   Pick
-                  </button>
-
+              </button>
               <p>T: {scores[`${player}Scores`].triple}</p>
               <button className='pick-button'
               onClick={() => props.onPick('triple')}
-              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.triple) || pickedSchoolScores[player] < 3 || disabledButtons[player].triple}>
+              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.triple) || pickedSchoolScores[player] < 3 || disabledButtons[player].triple || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isTripleConfirmed}>
               Pick</button>
 
               <p>SF: {scores[`${player}Scores`].straightFlush}</p>
               <button className='pick-button'
               onClick={() => props.onPick('straightFlush')}
-              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.straightFlush) || pickedSchoolScores[player] < 3 || disabledButtons[player].straightFlush}>
+              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.straightFlush) || pickedSchoolScores[player] < 3 || disabledButtons[player].straightFlush || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isStraightFlushConfirmed}>
               Pick</button>
-
               <p>RF: {scores[`${player}Scores`].royalFlush}</p>
               <button className='pick-button'
               onClick={() => props.onPick('royalFlush')}
-              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.royalFlush) || pickedSchoolScores[player] < 3 || disabledButtons[player].royalFlush}
+              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.royalFlush) || pickedSchoolScores[player] < 3 || disabledButtons[player].royalFlush || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isRoyalFlushConfirmed}
               >Pick</button>
 
               <p>FH: {scores[`${player}Scores`].fullHouse}</p>
               <button className='pick-button'
               onClick={() => props.onPick('fullHouse')}
-              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.fullHouse) || pickedSchoolScores[player] < 3 || disabledButtons[player].fullHouse}
+              disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.fullHouse) || pickedSchoolScores[player] < 3 || disabledButtons[player].fullHouse || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isFullHouseConfirmed}
               >Pick</button>
 
             <p>Q: {scores[`${player}Scores`].quads}</p>
               <button className='pick-button'
                 onClick={() => props.onPick('quads')}
-                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.quads) || pickedSchoolScores[player] < 3 || disabledButtons[player].quads}
+                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.quads) || pickedSchoolScores[player] < 3 || disabledButtons[player].quads || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isQuadsConfirmed}
               >Pick</button>
 
               <p>P: {scores[`${player}Scores`].poker}</p>
               <button className='pick-button'
                 onClick={() => props.onPick('poker')}
-                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.poker) || pickedSchoolScores[player] < 3 || disabledButtons[player].poker}
+                disabled={currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) || isNaN(playerScores?.poker) || pickedSchoolScores[player] < 3 || disabledButtons[player].poker || scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`].isPokerConfirmed}
               >Pick</button>
             </div>
           </div>
         );
       };
+      
     
       return (
         <main className="scores">
