@@ -22,7 +22,6 @@ function App() {
     doubleScores,
     setDoubleScores
   }); 
- console.log(currentPlayer)
 
   function newRoll() {
     return Array(DICE_COUNT).fill().map(generateNewDie);

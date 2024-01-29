@@ -127,12 +127,6 @@
       }
 
       const calculateScore = (count, value) => {
-        // if (count === 3) {
-        //   const result = 0; // Returning 0 instead of null
-        //   console.log('Result:', result);
-        //   return result;
-        // }
-      
         let multiplier;
 
         if (count === 1) {
@@ -279,14 +273,14 @@
 
       if (currentPlayer === 1 && !scores.playerOneScores.isTripleConfirmed) {
         if(doubleScores){
-          scores.playerOneScores.triple = 2 * tripleScore !== 0 ? tripleScore : '---';
+          scores.playerOneScores.triple = tripleScore !== 0 ? 2 * tripleScore : '---';
         } else {
           scores.playerOneScores.triple = tripleScore !== 0 ? tripleScore : '---';
         }
       }
-      if(doubleScores){
-        if (currentPlayer === 2 && !scores.playerTwoScores.isTripleConfirmed) {
-          scores.playerTwoScores.triple = 2 * tripleScore !== 0 ? tripleScore : '---';
+      if (currentPlayer === 2 && !scores.playerTwoScores.isTripleConfirmed) {
+        if(doubleScores){
+          scores.playerTwoScores.triple = tripleScore !== 0 ? 2 * tripleScore : '---';
         } else {
           scores.playerTwoScores.triple = tripleScore !== 0 ? tripleScore : '---';
         }
@@ -324,11 +318,13 @@
       }
 
       let royalFlushScore = 0;
-      const sortedValuesRoyal = dice
-        .map((die) => die.value)
-        .sort((a, b) => a - b);
-      if (sortedValuesRoyal[0] === 2 && sortedValuesRoyal[4] === 6) {
-        royalFlushScore = 30;
+      const diceValues = dice.map((die) => die.value).sort();
+      
+      // Check if the dice values contain 2, 3, 4, 5, 6 in any order
+      if (
+        (diceValues[0] === 2 && diceValues[1] === 3 && diceValues[2] === 4 && diceValues[3] === 5 && diceValues[4] === 6)
+      ) {
+        royalFlushScore = 20;
       }
 
       if (currentPlayer === 1 && !scores.playerOneScores.isRoyalFlushConfirmed) {
