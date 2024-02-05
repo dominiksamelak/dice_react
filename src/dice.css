@@ -35,3 +35,8 @@
 }
 
 /* .world-scores */
+* {
+  background-color: rgb(80, 80, 80);
+  color: #ffffff
+
+}
