@@ -91,9 +91,11 @@ function App() {
 
   return (
     <main>
-      <div className="dice-container">{diceElements}</div>
-      <button onClick={rollAll} disabled={disableRollButtons}>Roll all</button>
-      <button onClick={rollUnselected} disabled={disableRollButtons}>Roll unselected</button>
+      <div className='dice-controlls'>
+        <div className="dice-container">{diceElements}</div>
+        <button className='roll-button' onClick={rollAll} disabled={disableRollButtons}>Roll all</button>
+        <button className='roll-button' onClick={rollUnselected} disabled={disableRollButtons}>Roll unselected</button>
+      </div>
       {/* Pass scores and schoolScoreCount as props to Score component */}
       <div className="score-container">
         <Score

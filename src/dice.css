@@ -21,6 +21,25 @@
 .score-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.school-scores-container {
+  margin-right: 10px;
+}
+
+.player-scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 130px;
+}
+
+.world-scores {
+  margin-left: 40px;
+  margin-bottom: 40px;
 }
 
 .scores,
@@ -29,9 +48,68 @@
   flex-direction: row;
 }
 
-.pick-button {
-  height: 20px;
-  align-self: center;
+.sscore {
+  width: 40px;
 }
 
+.checkmark {
+  margin-left: 1px;
+}
+
+.pick-button {
+  height: 28px;
+  align-self: center;
+  margin-left: 6px;
+  border-radius: 14px;
+  width: 50px;
+  background-color: black;
+  border-color: white;
+  margin-right: 20px;
+}
+
+.pick-button:hover {
+  transition: 0.3s;
+  border-width: 4px;
+  font-weight: bold;
+}
+
+.pick-button:disabled
+{
+  opacity: 0.2;
+  cursor: not-allowed;
+} 
+
+.pick-button:focus
+{
+  cursor: not-allowed;
+  background-color: white;
+  display: none;
+}
+
+
 /* .world-scores */
+* {
+  background-color:rgb(66, 66, 66);
+  color: white;
+}
+
+.dice-controlls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+}
+
+.roll-button {
+  width: 100px;
+  margin-bottom: 12px;
+}
+
+.single-world-score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 140px;
+}

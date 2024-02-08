@@ -146,263 +146,287 @@ export default function Score(props) {
     };
 
     return (
-      <div key={player}>
+      <div className='school-scores-container' key={player}>
         <h2>{`Player ${player.slice(-3)} Score`}</h2>
         <div className="school-scores">
           <ul>
             {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num}>
-                <p>{`${num}: ${
+              <div className='player-scores' key={num}>
+                <p className='sscore'>{`${num}: ${
                   isNaN(playerScores[num]) || playerScores[num] === null
                     ? '---'
                     : playerScores[num]
                 }`}</p>
                 <button
                   className="pick-button"
-                  onClick={() => handlePickButtonClick(`is${num}Confirmed`)}
+                  onClick={() => {  handlePickButtonClick(`is${num}Confirmed`)} }
                   disabled={
                     currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
                     isNaN(playerScores[num]) ||
                     disabledButtons[player][`is${num}Confirmed`]
                   }
+                  
                 >
                   Pick
                 </button>
-                {playerScores[`is${num}Confirmed`] && (
-                  <span className="checkmark">&#10003;</span>
-                )}
+                  {playerScores[`is${num}Confirmed`] && (
+                    <span className="checkmark">&#10003;</span>
+                  )}
               </div>
             ))}
           </ul>
+
         </div>
-        <p>{`Sum: ${schoolSum}`}</p>
+        <p className='sum-score'>{`School score: ${schoolSum}`}</p>
         <div className="world-scores">
-          <p>1P: {scores[`${player}Scores`].onePair}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('onePair')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.onePair) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].onePair ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isOnePairConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('onePair')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].onePair && (
-            <span className="checkmark">&#10003;</span>
-          )}
+          <div className='single-world-score'>
+            <p>1P: {scores[`${player}Scores`].onePair}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('onePair')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.onePair) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].onePair ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isOnePairConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('onePair')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].onePair && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
 
-          <p>2P: {scores[`${player}Scores`].twoPairs}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('twoPairs')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.twoPairs) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].twoPairs ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isTwoPairsConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('twoPairs')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].twoPairs && (
-            <span className="checkmark">&#10003;</span>
-          )}
+          <div className='single-world-score'>
+            <p>2P: {scores[`${player}Scores`].twoPairs}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('twoPairs')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.twoPairs) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].twoPairs ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isTwoPairsConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('twoPairs')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].twoPairs && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
 
-          <p>T: {scores[`${player}Scores`].triple}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('triple')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.triple) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].triple ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isTripleConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('triple')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].triple && (
-            <span className="checkmark">&#10003;</span>
-          )}
-          <p>SF: {scores[`${player}Scores`].straightFlush}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('straightFlush')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.straightFlush) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].straightFlush ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isStraightFlushConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('straightFlush')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].straightFlush && (
-            <span className="checkmark">&#10003;</span>
-          )}
-          <p>RF: {scores[`${player}Scores`].royalFlush}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('royalFlush')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.royalFlush) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].royalFlush ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isRoyalFlushConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('royalFlush')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].royalFlush && (
-            <span className="checkmark">&#10003;</span>
-          )}
-          <p>FH: {scores[`${player}Scores`].fullHouse}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('fullHouse')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.fullHouse) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].fullHouse ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isFullHouseConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('fullHouse')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].fullHouse && (
-            <span className="checkmark">&#10003;</span>
-          )}
-          <p>Q: {scores[`${player}Scores`].quads}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('quads')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.quads) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].quads ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isQuadsConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('quads')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].quads && (
-            <span className="checkmark">&#10003;</span>
-          )}
-          <p>P: {scores[`${player}Scores`].poker}</p>
-          <button
-            className="pick-button"
-            onClick={() => handleWorldScoreButtonClick('poker')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              isNaN(playerScores?.poker) ||
-              pickedSchoolScores[player] < 3 ||
-              disabledButtons[player].poker ||
-              scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                .isPokerConfirmed
-            }
-          >
-            Pick
-          </button>
-          <button
-            className="cross-out"
-            onClick={() => handleCrossOutButtonClick('poker')}
-            disabled={
-              currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-              pickedSchoolScores[player] < 3
-            }
-          >
-            X
-          </button>
-          {selectedWorldScores[player].poker && (
-            <span className="checkmark">&#10003;</span>
-          )}
+          <div className='single-world-score'>
+            <p>T: {scores[`${player}Scores`].triple}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('triple')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.triple) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].triple ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isTripleConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('triple')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].triple && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+          
+          <div className='single-world-score'>
+            <p>SF: {scores[`${player}Scores`].straightFlush}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('straightFlush')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.straightFlush) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].straightFlush ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isStraightFlushConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('straightFlush')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].straightFlush && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+          
+          <div className='single-world-score'>
+            <p>RF: {scores[`${player}Scores`].royalFlush}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('royalFlush')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.royalFlush) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].royalFlush ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isRoyalFlushConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('royalFlush')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].royalFlush && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+         
+          <div className='single-world-score'>
+            <p>FH: {scores[`${player}Scores`].fullHouse}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('fullHouse')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.fullHouse) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].fullHouse ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isFullHouseConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('fullHouse')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].fullHouse && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+         
+          <div className='single-world-score'>
+            <p>Q: {scores[`${player}Scores`].quads}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('quads')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.quads) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].quads ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isQuadsConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('quads')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].quads && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+         
+          <div className='single-world-score'>
+            <p>P: {scores[`${player}Scores`].poker}</p>
+            <button
+              className="pick-button"
+              onClick={() => handleWorldScoreButtonClick('poker')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                isNaN(playerScores?.poker) ||
+                pickedSchoolScores[player] < 3 ||
+                disabledButtons[player].poker ||
+                scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
+                  .isPokerConfirmed
+              }
+            >
+              Pick
+            </button>
+            <button
+              className="cross-out"
+              onClick={() => handleCrossOutButtonClick('poker')}
+              disabled={
+                currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                pickedSchoolScores[player] < 3
+              }
+            >
+              X
+            </button>
+            {selectedWorldScores[player].poker && (
+              <span className="checkmark">&#10003;</span>
+            )}
+          </div>
+         
         </div>
         <p>{`Total Score: ${calculateWorldScoresSum() + schoolSum}`}</p>
       </div>

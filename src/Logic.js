@@ -104,10 +104,6 @@ export function CountingLogic({
           if (updatedScores[`player${playerString}Scores`][isConfirmedKey]) {
             continue;
           }
-
-          // Update the score based on the scoreType
-          updatedScores[`player${playerString}Scores`][scoreKey] =
-            updatedScores[`player${playerString}Scores`][scoreKey] ?? null;
         }
 
         // Additional properties like isOnePairConfirmed, isTwoPairsConfirmed, etc.
