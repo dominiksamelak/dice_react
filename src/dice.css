@@ -89,6 +89,7 @@
 
 /* .world-scores */
 * {
+<<<<<<< HEAD
   background-color:rgb(66, 66, 66);
   color: white;
 }
@@ -113,3 +114,9 @@
   align-items: center;
   width: 140px;
 }
+=======
+  background-color: rgb(80, 80, 80);
+  color: #ffffff
+
+}
+>>>>>>> 64586b340a0a4f7f3c1c98bd1c399778f3f3e531
