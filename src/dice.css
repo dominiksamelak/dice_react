@@ -1,10 +1,16 @@
 .dice-container {
   display: flex;
   margin: 10px;
+  height: 90px;
+  align-items: center;
 }
 
 .die-face {
   margin: 10px;
+}
+
+.die-face:hover {
+  border-color: yellow;
 }
 
 .dice-img {
@@ -172,4 +178,15 @@
 .input-text {
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+.endgame-screen{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.endgame-winner {
+  width: auto;
 }

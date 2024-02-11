@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 export default function Score(props) {
   const { scores, onPick, currentPlayer, setCurrentPlayer, rollCount, playerOneName, playerTwoName } = props;
-  const [gameEnded, setGameEnded]  = useState(false)
-  const [buttonClickCount, setButtonClickCount] = useState(1);
+  const [buttonClickCount, setButtonClickCount] = useState(20);
+  const [gameEnded, setGameEnded] = useState(false);
   const [clickedButtons, setClickedButtons] = useState({
     playerOne: {},
     playerTwo: {},
@@ -37,7 +37,11 @@ export default function Score(props) {
     playerOne: {},
     playerTwo: {},
   });
-
+  useEffect(() => {
+    if (buttonClickCount === 28) {
+      setGameEnded(true);
+    }
+  }, [buttonClickCount]);
 
   useEffect(() => {
     const schoolScoreCount = Object.keys(
@@ -63,11 +67,6 @@ export default function Score(props) {
     }));
   }, []);
 
-  const gameEnd = () => {
-    if(buttonClickCount === 28){
-      
-    }
-  }
 
   const handlePickButtonClick = (player, scoreType) => {
     setButtonClickCount(prevCount => prevCount + 1);
@@ -107,7 +106,7 @@ export default function Score(props) {
 
     // Switch the currentPlayer after the onPick callback is triggered
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
-    gameEnd()
+
   };
 
   const renderPlayerScores = (player) => {
@@ -137,8 +136,7 @@ export default function Score(props) {
         },
       }));
       props.onPick(scoreType);
-      gameEnd()
-      console.log(buttonClickCount)
+
     };
     const calculateWorldScoresSum = () => {
       let sum = Object.keys(selectedWorldScores[player]).reduce(
@@ -183,10 +181,10 @@ export default function Score(props) {
         // Switch the currentPlayer after the onPick callback is triggered
         setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
       }
-      gameEnd()
-      console.log(buttonClickCount)
     };
 
+
+  
 
 
     return (
@@ -511,10 +509,33 @@ export default function Score(props) {
     );
   };
 
+  const renderWinningScreen = () => {
+    // Determine the winner based on scores
+    const playerOneTotalScore = Object.values(scores.playerOneScores).reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
+    const playerTwoTotalScore = Object.values(scores.playerTwoScores).reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
+    const winner = playerOneTotalScore > playerTwoTotalScore ? playerOneName : playerTwoName;
+  
+    return (
+      <div className='endgame-screen'>
+        <h1>Game Over</h1>
+        <h2 className='endgame-winner'>{winner} wins!</h2>
+        <p style={{ color: winner === playerOneName ? 'lightgreen' : 'inherit' }}> <span style={{ color: winner === playerOneName ? 'lightgreen' : 'inherit' }}>{playerOneName}</span> Score: {playerOneTotalScore}</p>
+        <p style={{ color: winner === playerTwoName ? 'lightgreen' : 'inherit' }}><span style={{ color: winner === playerTwoName ? 'lightgreen' : 'inherit' }}>{playerTwoName}</span> Score: {playerTwoTotalScore}</p>
+        {/* Display any additional information or options here */}
+      </div>
+    );
+  };
+  console.log(scores.playerTwoScores)
   return (
     <main className="scores">
-      {renderPlayerScores('playerOne')}
-      {renderPlayerScores('playerTwo')}
+      {gameEnded ? (
+        renderWinningScreen()
+      ) : (
+        <>
+          {renderPlayerScores('playerOne')}
+          {renderPlayerScores('playerTwo')}
+        </>
+      )}
     </main>
   );
 }
