@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import './dice.css';
 import Score from './Score';
 import { CountingLogic } from './Logic';
+import PlayerNamesInput from './PlayerNamesInput';
 
 const DICE_COUNT = 5;
 
@@ -22,10 +23,17 @@ function App() {
     doubleScores,
     setDoubleScores
   }); 
+  const [playerOneName, setPlayerOneName] = useState('');
+  const [playerTwoName, setPlayerTwoName] = useState('');
+
+  const handlePlayerNamesSubmit = (player1, player2) => {
+    setPlayerOneName(player1);
+    setPlayerTwoName(player2);
+  };
 
   function newRoll() {
     return Array(DICE_COUNT).fill().map(generateNewDie);
-  }
+    }
 
   function generateNewDie() {
     const diceValue = Math.floor(Math.random() * 6) + 1; // Adjust to generate values between 1 and 6
@@ -41,7 +49,6 @@ function App() {
     if (rollCount === 3) {
       setDisableRollButtons(true);
     }
-    console.log(rollCount)
   }
   
   function resetRollCount() {
@@ -88,24 +95,31 @@ function App() {
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); // Switch currentPlayer
     resetRollCount();
   }; 
-
   return (
     <main>
-      <div className='dice-controlls'>
-        <div className="dice-container">{diceElements}</div>
-        <button className='roll-button' onClick={rollAll} disabled={disableRollButtons}>Roll all</button>
-        <button className='roll-button' onClick={rollUnselected} disabled={disableRollButtons}>Roll unselected</button>
-      </div>
+      {playerOneName && playerTwoName ? (
+        <div className='dice-controlls'>
+          <div className="dice-container">{diceElements}</div>
+          <button className='roll-button' onClick={rollAll} disabled={disableRollButtons}>Roll all</button>
+          <button className='roll-button' onClick={rollUnselected} disabled={disableRollButtons}>Roll unselected</button>
+        </div>
+      ) : (
+        <PlayerNamesInput onSubmit={handlePlayerNamesSubmit} />
+      )}
       {/* Pass scores and schoolScoreCount as props to Score component */}
-      <div className="score-container">
-        <Score
-          scores={scores}
-          onPick={handlePickScore}
-          currentPlayer={currentPlayer}
-          setCurrentPlayer={setCurrentPlayer  }
-        />
-
-      </div>
+      {playerOneName && playerTwoName && (
+        <div className="score-container">
+          <Score
+            scores={scores}
+            onPick={handlePickScore}
+            currentPlayer={currentPlayer}
+            setCurrentPlayer={setCurrentPlayer}
+            rollCount={rollCount}
+            playerOneName={playerOneName}
+            playerTwoName={playerTwoName}
+          />
+        </div>
+      )}
     </main>
   );
 }

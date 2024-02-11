@@ -34,7 +34,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 130px;
+  
 }
 
 .world-scores {
@@ -49,11 +49,24 @@
 }
 
 .sscore {
-  width: 40px;
+  width: 46px;
 }
 
-.checkmark {
-  margin-left: 1px;
+.checkmark-school {
+  margin-right: 56px
+}
+
+.checkmark-world {
+  margin-right:94px;
+}
+
+.cross-out {
+  align-self: center;
+  border-radius: 10px;
+  width: 24px;
+  background-color: black;
+  border-color: red;
+  margin-right: 20px;
 }
 
 .pick-button {
@@ -67,29 +80,23 @@
   margin-right: 20px;
 }
 
-.pick-button:hover {
+.pick-button:hover,
+.cross-out:hover {
   transition: 0.3s;
   border-width: 4px;
   font-weight: bold;
 }
 
-.pick-button:disabled
+.pick-button:disabled,
+.cross-out:disabled,
+.roll-button:disabled 
 {
   opacity: 0.2;
   cursor: not-allowed;
 } 
 
-.pick-button:focus
-{
-  cursor: not-allowed;
-  background-color: white;
-  display: none;
-}
-
-
 /* .world-scores */
 * {
-<<<<<<< HEAD
   background-color:rgb(66, 66, 66);
   color: white;
 }
@@ -103,8 +110,18 @@
 }
 
 .roll-button {
-  width: 100px;
+  width: 120px;
+  height: 36px;
   margin-bottom: 12px;
+  border-radius: 50px;
+  background-color: black;
+  border-color: white;
+}
+
+.roll-button:hover {
+  transition: 0.3s;
+  border-width: 4px;
+  font-weight: bold;
 }
 
 .single-world-score {
@@ -112,11 +129,47 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 140px;
+  width: 164px;
 }
-=======
+*{
   background-color: rgb(80, 80, 80);
   color: #ffffff
-
 }
->>>>>>> 64586b340a0a4f7f3c1c98bd1c399778f3f3e531
+
+.player-name-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.input-box {
+  margin-bottom: 10px;
+  height: 40px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: black;
+}
+
+.submit-player-name-button {
+  height: 46px;
+  border-radius: 23px;
+  background-color: black;
+  border-color: white;
+  width: 66px;
+}
+
+.submit-player-name-button:hover {
+  transition: 0.3s;
+  border-width: 4px;
+  font-weight: bold;
+}
+
+.input-text {
+  font-weight: bold;
+  margin-bottom: 10px;
+}

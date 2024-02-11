@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 export default function Score(props) {
-  const { scores, onPick, currentPlayer, setCurrentPlayer } = props;
+  const { scores, onPick, currentPlayer, setCurrentPlayer, rollCount, playerOneName, playerTwoName } = props;
+  const [gameEnded, setGameEnded]  = useState(false)
+  const [buttonClickCount, setButtonClickCount] = useState(1);
+  const [clickedButtons, setClickedButtons] = useState({
+    playerOne: {},
+    playerTwo: {},
+  });
   const [selectedWorldScores, setSelectedWorldScores] = useState({
     playerOne: {
       onePair: false,
@@ -32,6 +38,7 @@ export default function Score(props) {
     playerTwo: {},
   });
 
+
   useEffect(() => {
     const schoolScoreCount = Object.keys(
       scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
@@ -56,8 +63,22 @@ export default function Score(props) {
     }));
   }, []);
 
-  const handlePickButtonClick = (scoreType) => {
+  const gameEnd = () => {
+    if(buttonClickCount === 28){
+      
+    }
+  }
+
+  const handlePickButtonClick = (player, scoreType) => {
+    setButtonClickCount(prevCount => prevCount + 1);
     // Check if the score is already picked for the current player
+    setClickedButtons(prevClickedButtons => ({
+      ...prevClickedButtons,
+      [player]: {
+        ...prevClickedButtons[player],
+        [scoreType]: true,
+      }
+    }));
     if (
       !scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`][
         scoreType
@@ -78,14 +99,15 @@ export default function Score(props) {
         ...prevState[currentPlayer === 1 ? 'playerOne' : 'playerTwo'],
         [scoreType]: true,
       },
-    }));
 
+    }));
+    console.log(buttonClickCount)
     // Trigger the onPick callback
     onPick(scoreType);
 
     // Switch the currentPlayer after the onPick callback is triggered
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
-    console.log(scores);
+    gameEnd()
   };
 
   const renderPlayerScores = (player) => {
@@ -99,6 +121,14 @@ export default function Score(props) {
     }, 0);
 
     const handleWorldScoreButtonClick = (scoreType) => {
+      setButtonClickCount(prevCount => prevCount + 1);
+      setClickedButtons(prevClickedButtons => ({
+        ...prevClickedButtons,
+        [player]: {
+          ...prevClickedButtons[player],  
+          [scoreType]: true,
+        }
+      }));
       setSelectedWorldScores((prevSelected) => ({
         ...prevSelected,
         [player]: {
@@ -107,6 +137,8 @@ export default function Score(props) {
         },
       }));
       props.onPick(scoreType);
+      gameEnd()
+      console.log(buttonClickCount)
     };
     const calculateWorldScoresSum = () => {
       let sum = Object.keys(selectedWorldScores[player]).reduce(
@@ -131,6 +163,14 @@ export default function Score(props) {
       return sum;
     };
     const handleCrossOutButtonClick = (scoreType) => {
+      setButtonClickCount(prevCount => prevCount + 1);
+      setClickedButtons(prevClickedButtons => ({
+        ...prevClickedButtons,
+        [player]: {
+          ...prevClickedButtons[player],  
+          [scoreType]: true,
+        }
+      }));
       // Check if there are three scores picked in the school
       if (pickedSchoolScores[player] >= 3) {
         // Update the corresponding score to 'X'
@@ -143,11 +183,15 @@ export default function Score(props) {
         // Switch the currentPlayer after the onPick callback is triggered
         setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
       }
+      gameEnd()
+      console.log(buttonClickCount)
     };
+
+
 
     return (
       <div className='school-scores-container' key={player}>
-        <h2>{`Player ${player.slice(-3)} Score`}</h2>
+        <h2>{player === 'playerOne' ? playerOneName : playerTwoName} Score</h2>
         <div className="school-scores">
           <ul>
             {[1, 2, 3, 4, 5, 6].map((num) => (
@@ -157,20 +201,21 @@ export default function Score(props) {
                     ? '---'
                     : playerScores[num]
                 }`}</p>
-                <button
-                  className="pick-button"
-                  onClick={() => {  handlePickButtonClick(`is${num}Confirmed`)} }
-                  disabled={
-                    currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                    isNaN(playerScores[num]) ||
-                    disabledButtons[player][`is${num}Confirmed`]
-                  }
-                  
-                >
-                  Pick
-                </button>
+                  <button
+                      className="pick-button"
+                      onClick={() => handlePickButtonClick(player, `is${num}Confirmed`)}
+                      disabled={
+                          currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
+                          isNaN(playerScores[num]) ||
+                          clickedButtons[player] === `is${num}Confirmed` ||
+                          rollCount < 2
+                      }
+                      style={{ display: clickedButtons[player][`is${num}Confirmed`] ? 'none' : 'block' }}
+                  >
+                      Pick
+                  </button>
                   {playerScores[`is${num}Confirmed`] && (
-                    <span className="checkmark">&#10003;</span>
+                    <span className="checkmark-school">&#10003;</span>
                   )}
               </div>
             ))}
@@ -180,7 +225,7 @@ export default function Score(props) {
         <p className='sum-score'>{`School score: ${schoolSum}`}</p>
         <div className="world-scores">
           <div className='single-world-score'>
-            <p>1P: {scores[`${player}Scores`].onePair}</p>
+            <p className='sscore'>1P: {scores[`${player}Scores`].onePair}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('onePair')}
@@ -190,8 +235,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].onePair ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isOnePairConfirmed
+                  .isOnePairConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].onePair ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -200,18 +247,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('onePair')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].onePair ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].onePair && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
 
           <div className='single-world-score'>
-            <p>2P: {scores[`${player}Scores`].twoPairs}</p>
+            <p className='sscore'>2P: {scores[`${player}Scores`].twoPairs}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('twoPairs')}
@@ -221,8 +270,11 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].twoPairs ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isTwoPairsConfirmed
+                  .isTwoPairsConfirmed ||
+                  rollCount < 2
+                  
               }
+              style={{ display: clickedButtons[player].twoPairs ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -231,18 +283,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('twoPairs')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].twoPairs ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].twoPairs && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
 
           <div className='single-world-score'>
-            <p>T: {scores[`${player}Scores`].triple}</p>
+            <p className='sscore'>T: {scores[`${player}Scores`].triple}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('triple')}
@@ -252,8 +306,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].triple ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isTripleConfirmed
+                  .isTripleConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].triple ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -262,18 +318,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('triple')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].triple ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].triple && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
           
           <div className='single-world-score'>
-            <p>SF: {scores[`${player}Scores`].straightFlush}</p>
+            <p className='sscore'>SF: {scores[`${player}Scores`].straightFlush}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('straightFlush')}
@@ -283,8 +341,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].straightFlush ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isStraightFlushConfirmed
+                  .isStraightFlushConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].straightFlush ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -293,18 +353,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('straightFlush')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].straightFlush ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].straightFlush && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
           
           <div className='single-world-score'>
-            <p>RF: {scores[`${player}Scores`].royalFlush}</p>
+            <p className='sscore'>RF: {scores[`${player}Scores`].royalFlush}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('royalFlush')}
@@ -314,8 +376,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].royalFlush ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isRoyalFlushConfirmed
+                  .isRoyalFlushConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].royalFlush ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -324,18 +388,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('royalFlush')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].royalFlush ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].royalFlush && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
          
           <div className='single-world-score'>
-            <p>FH: {scores[`${player}Scores`].fullHouse}</p>
+            <p className='sscore'>FH: {scores[`${player}Scores`].fullHouse}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('fullHouse')}
@@ -345,8 +411,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].fullHouse ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isFullHouseConfirmed
+                  .isFullHouseConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].fullHouse ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -355,18 +423,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('fullHouse')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].fullHouse ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].fullHouse && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
          
           <div className='single-world-score'>
-            <p>Q: {scores[`${player}Scores`].quads}</p>
+            <p className='sscore'>Q: {scores[`${player}Scores`].quads}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('quads')}
@@ -376,8 +446,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].quads ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isQuadsConfirmed
+                  .isQuadsConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].quads ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -386,18 +458,20 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('quads')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].quads ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].quads && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
          
           <div className='single-world-score'>
-            <p>P: {scores[`${player}Scores`].poker}</p>
+            <p className='sscore'>P: {scores[`${player}Scores`].poker}</p>
             <button
               className="pick-button"
               onClick={() => handleWorldScoreButtonClick('poker')}
@@ -407,8 +481,10 @@ export default function Score(props) {
                 pickedSchoolScores[player] < 3 ||
                 disabledButtons[player].poker ||
                 scores[`${currentPlayer === 1 ? 'playerOne' : 'playerTwo'}Scores`]
-                  .isPokerConfirmed
+                  .isPokerConfirmed ||
+                  rollCount < 2
               }
+              style={{ display: clickedButtons[player].poker ? 'none' : 'block' }}
             >
               Pick
             </button>
@@ -417,13 +493,15 @@ export default function Score(props) {
               onClick={() => handleCrossOutButtonClick('poker')}
               disabled={
                 currentPlayer !== (player.slice(-1) === 'o' ? 2 : 1) ||
-                pickedSchoolScores[player] < 3
+                pickedSchoolScores[player] < 3 ||
+                rollCount < 2
               }
+              style={{ display: clickedButtons[player].poker ? 'none' : 'block' }}
             >
               X
             </button>
             {selectedWorldScores[player].poker && (
-              <span className="checkmark">&#10003;</span>
+              <span className="checkmark-world">&#10003;</span>
             )}
           </div>
          
